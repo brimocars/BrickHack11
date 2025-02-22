@@ -4,8 +4,20 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BrickHack11
 {
+    enum GameState
+    {
+        MainMenu,
+        Playing,
+        Paused,
+        GameOver,
+        Victory
+    }
+    
     public class Game1 : Game
     {
+        private GameState _gameState;
+        private Texture2D ballTexture;
+        
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -18,7 +30,7 @@ namespace BrickHack11
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            _gameState = GameState.MainMenu;
 
             base.Initialize();
         }
@@ -35,7 +47,19 @@ namespace BrickHack11
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            switch (_gameState)
+            {
+                case GameState.MainMenu:
+					break;
+				case GameState.Playing:
+					break;
+				case GameState.Paused:
+					break;
+				case GameState.GameOver:
+					break;
+				case GameState.Victory:
+					break;
+            }
 
             base.Update(gameTime);
         }
