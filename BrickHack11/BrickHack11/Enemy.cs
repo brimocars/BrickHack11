@@ -27,7 +27,7 @@ namespace BrickHack11
             _health = health;
             _speed = speed;
             _direction = 1; // Start moving right
-            _attackCooldown = 3.0f;
+            _attackCooldown = 0f;
             _timeSinceLastAttack = 0;
             _leftBound = 60;
             _rightBound = 860;

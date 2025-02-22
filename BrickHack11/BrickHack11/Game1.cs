@@ -91,8 +91,8 @@ namespace BrickHack11
                     {
                         var patterns = new List<IBulletPattern>
                         {
-                            new CirclePattern(10, 100),
-                            new CirclePattern(20, 200)
+                            new CirclePattern(10, 800),
+                            new CirclePattern(20, 800)
                         };
                         
                         _enemy = new Enemy(
@@ -104,28 +104,40 @@ namespace BrickHack11
                             200,
                             patterns);
                     }
+                    
+                    // Update Enemy
+                    _enemy.Update(gameTime);
+                    
+                    // Update Player
+                    _player.Update();
 
                     // Update Bullets
-                    foreach (var bullet in _bullets)
+                    for(int i = 0; i < _bullets.Count; i++)
                     {
+                        Bullet bullet = _bullets[i];
                         bullet.Update(gameTime);
-                        
+
                         // Check collision:
-                        if (_player._parryBound.Intersects(bullet.Hitbox))
+                        if (_player.Hitbox.Intersects(bullet.Hitbox))
+                        {
+                            _bullets.RemoveAt(i);
+                            // i++;
+                            // _player.TakeDamage();
+                        }
+                        else if (_player._parryBound.Intersects(bullet.Hitbox))
                         {
                             // _player.setParry(true, bullet);
                         }
                     }
-
-                    // Update Enemy
-                    _enemy.Update(gameTime);
+                    
+                    if (_enemy.Hitbox.Intersects(_player.Hitbox))
+                    {
+                        // _player.TakeDamage();
+                    }
 
                     // Handle new bullets from enemy
                     List<Bullet> newBullets = _enemy.SpawnBullets();
                     _bullets.AddRange(newBullets);
-                    
-                    // Update Player
-                    _player.Update();
 
                     // Check for parry:
                     KeyboardState state = Keyboard.GetState();
@@ -134,7 +146,11 @@ namespace BrickHack11
                         // PARRY!!!
                         // _player._bulletToParry.Velocity = new Vector2(-_player._bulletToParry.Velocity.X, -_player._bulletToParry.Velocity.Y);
                     }
-
+                    
+                    if (!_player.IsAlive)
+                    {
+                        _gameState = GameState.GameOver;
+                    }
                     _previousGameState = GameState.Playing;
                     break;
                 
@@ -179,6 +195,7 @@ namespace BrickHack11
                     break;
                 
                 case GameState.GameOver:
+                    GraphicsDevice.Clear(Color.Red);
                     break;
                 
                 case GameState.Victory:
