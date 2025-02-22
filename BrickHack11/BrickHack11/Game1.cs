@@ -48,7 +48,7 @@ namespace BrickHack11
 
             sprites = new SpriteManager(this.Content);
             player = new Player(sprites.PlayerSprite, new Rectangle(100, 100, 64, 64), new Rectangle(0,0,64,64), 3, 3f);
-            mainMenu = new MainMenu(sprites.MainMenuTexture);
+            mainMenu = new MainMenu(sprites.MainMenuTexture, sprites.PlayButtonTexture, sprites.ExitButtonTexture);
         }
 
         protected override void Update(GameTime gameTime)
@@ -88,6 +88,7 @@ namespace BrickHack11
             // TODO: Add your drawing code here
             player.Draw(_spriteBatch);
             mainMenu.Draw(_spriteBatch);
+            
 
             _spriteBatch.End();
             base.Draw(gameTime);
