@@ -26,7 +26,7 @@ namespace BrickHack11
         
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(SpriteSheet, Position, Color.White);
+            spriteBatch.Draw(SpriteSheet, Hitbox, Color.White);
         }
 
         // public bool Move()

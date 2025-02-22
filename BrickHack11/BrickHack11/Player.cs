@@ -64,7 +64,7 @@ namespace BrickHack11
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(SpriteSheet, Position, SpriteFrame, Color.Green);
+            spriteBatch.Draw(SpriteSheet, Hitbox, SpriteFrame, Color.Green);
         }
     }
 

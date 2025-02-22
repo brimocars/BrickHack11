@@ -121,7 +121,7 @@ namespace BrickHack11
                         if (_player.Hitbox.Intersects(bullet.Hitbox))
                         {
                             _bullets.RemoveAt(i);
-                            // i++;
+                            i--;
                             // _player.TakeDamage();
                         }
                         else if (_player._parryBound.Intersects(bullet.Hitbox))
