@@ -1,4 +1,5 @@
-﻿using BrickHack11.Patterns;
+﻿using System;
+using BrickHack11.Patterns;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -62,39 +63,48 @@ namespace BrickHack11
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
             switch (_gameState)
             {
                 case GameState.MainMenu:
                     mainMenu.Update();
-                        if(mainMenu.playClick == true){
-                            _gameState = GameState.Playing;
-                        }
-                        else if (mainMenu.quitClick == true){
-                            Exit();
-                        }
+                    if(mainMenu.playClick == true){
                         _gameState = GameState.Playing;
-					    break;
+                    }
+                    else if (mainMenu.quitClick == true){
+                        Exit();
+                    }
+                    
+                    _gameState = GameState.Playing;
+                    _previousGameState = GameState.MainMenu;
+					break;
 				case GameState.Playing:
                     if (_previousGameState == GameState.MainMenu)
                     {
-                        var pattern = new CirclePattern(10, 1.0f);
+                        var pattern = new StreamPattern(300, 1.0f, 1.0f);
                         pattern.Spawn(new Vector2(100, 100), 
                             sprites.PlayerSprite, 
                             new Rectangle(0, 0, 0, 0),
                             _bullets);
                     }
 
+                    foreach (var bullet in _bullets)
+                    {
+                        bullet.Update(gameTime);
+                    }
                     _player.Update();
+                    _previousGameState = GameState.Playing;
 					break;
 				case GameState.Paused:
+                    _previousGameState = GameState.Paused;
 					break;
 				case GameState.GameOver:
+                    _previousGameState = GameState.GameOver;
 					break;
 				case GameState.Victory:
+                    _previousGameState = GameState.Victory;
 					break;
             }
-
-            _previousGameState = _gameState;
             base.Update(gameTime);
         }
 
@@ -110,6 +120,10 @@ namespace BrickHack11
                     break;
                 case GameState.Playing:
                     _player.Draw(_spriteBatch);
+                    foreach (Bullet bullet in _bullets)
+                    {  
+                        bullet.Draw(_spriteBatch);
+                    }
                     break;
                 case GameState.Paused:
                     break;
