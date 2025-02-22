@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace BrickHack11
 {
@@ -21,7 +22,7 @@ namespace BrickHack11
             get { return position; }
             set {
                 position = value;
-                hitbox = new Rectangle((int)Position.X, (int)Position.Y, hitbox.X, hitbox.Y);
+                hitbox = new Rectangle((int)Position.X, (int)Position.Y, hitbox.Width, hitbox.Height);
             }
         }
 

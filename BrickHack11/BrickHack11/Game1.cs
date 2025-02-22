@@ -59,8 +59,8 @@ namespace BrickHack11
             var startingPosition = new Vector2(100, 100);
             
             _player = new Player(
-                sprites.PlayerSprite, 
-                new Vector2(startingPosition.X, startingPosition.Y), 
+                sprites.PlayerSprite,
+                new Vector2(startingPosition.X, startingPosition.Y),
                 new Rectangle((int)startingPosition.X, (int)startingPosition.Y, 64, 64), 
                 new Rectangle(0,0,64,64), 3, 3f);
             
@@ -88,20 +88,32 @@ namespace BrickHack11
                 
                 
 				case GameState.Playing:
-                    if (_previousGameState == GameState.MainMenu)
-                    {
+                    //if (_previousGameState == GameState.MainMenu)
+                    //{
                         var pattern = new CirclePattern(100, 300f);
-                        pattern.Spawn(new Vector2(300, 500), 
+                        pattern.Spawn(new Vector2(700, 500), 
                             sprites.PlayerSprite, 
                             new Rectangle(0, 0, 10, 10),
                             _bullets);
-                    }
+                    //}
 
-                    foreach (var bullet in _bullets)
+                    for(int i = 0; i < _bullets.Count; i++)
                     {
+                        Bullet bullet = _bullets[i];
                         bullet.Update(gameTime);
+
                         // Check collision:
-                        if (_player._parryBound.Intersects(bullet.Hitbox))
+                        if (_player.Hitbox.Intersects(bullet.Hitbox))
+                        {
+                            //System.Diagnostics.Debug.WriteLine("Player X: " + _player.Position.X + " Y: " + _player.Position.Y, );
+                            System.Diagnostics.Debug.WriteLine("Bullet X: " + bullet.Hitbox.X + " Y: " + bullet.Hitbox.Y + " width: " + bullet.Hitbox.Width + " height: " + bullet.Hitbox.Height);
+                            System.Diagnostics.Debug.WriteLine("Player X: " + _player.Hitbox.X + " Y: " + _player.Hitbox.Y + " width: " + _player.Hitbox.Width + " height: " + _player.Hitbox.Height);
+
+                            _bullets.RemoveAt(i);
+                            i++;
+                            //_player.TakeDamage();
+                        }
+                        else if (_player._parryBound.Intersects(bullet.Hitbox))
                         {
                             _player.setParry(true, bullet);
                         }
@@ -114,6 +126,11 @@ namespace BrickHack11
                     {
                         // PARRY!!!
                         _player._bulletToParry.Velocity = new Vector2(-_player._bulletToParry.Velocity.X, -_player._bulletToParry.Velocity.Y);
+                    }
+
+                    if (!_player.IsAlive)
+                    {
+                        _gameState = GameState.GameOver;
                     }
 
                     _previousGameState = GameState.Playing;
@@ -163,6 +180,8 @@ namespace BrickHack11
                 
                 
                 case GameState.GameOver:
+                    GraphicsDevice.Clear(Color.Red);
+
                     break;
                 
                 

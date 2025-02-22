@@ -14,6 +14,9 @@ namespace BrickHack11
         public bool _canParry;
         public Bullet _bulletToParry;
         public Rectangle _parryBound;
+
+        public bool IsAlive { get { return _isAlive; } private set { _isAlive = value; } }
+
         public Player(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, int health, float speed) :
           base(spriteSheet, position, hitbox, spriteFrame)
         {
