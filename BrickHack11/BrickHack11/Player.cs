@@ -59,7 +59,7 @@ namespace BrickHack11
             // Update cooldown:
             if (!canParry()) 
             {
-                _parryCooldown -= (1/60);
+                _parryCooldown -= (1f/60f);
             }
         }
 
