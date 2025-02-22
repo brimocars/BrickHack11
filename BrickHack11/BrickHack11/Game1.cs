@@ -61,7 +61,7 @@ namespace BrickHack11
                 sprites.PlayerSprite, 
                 new Vector2(startingPosition.X, startingPosition.Y), 
                 new Rectangle((int)startingPosition.X, (int)startingPosition.Y, 64, 64), 
-                new Rectangle(0,0,64,64), 3, 3f);
+                new Rectangle(0,0,64,64), 3, 6.8f);
             
             mainMenu = new MainMenu(sprites.MainMenuTexture, sprites.PlayButtonTexture, sprites.ExitButtonTexture);
         }
@@ -121,7 +121,7 @@ namespace BrickHack11
                         if (_player.Hitbox.Intersects(bullet.Hitbox))
                         {
                             _bullets.RemoveAt(i);
-                            // i++;
+                            i--;
                             // _player.TakeDamage();
                         }
                         else if (_player._parryBound.Intersects(bullet.Hitbox))
@@ -136,7 +136,7 @@ namespace BrickHack11
                     }
 
                     // Handle new bullets from enemy
-                    List<Bullet> newBullets = _enemy.SpawnBullets();
+                    List<Bullet> newBullets = _enemy.TrySpawnRandomPattern();
                     _bullets.AddRange(newBullets);
 
                     // Check for parry:
