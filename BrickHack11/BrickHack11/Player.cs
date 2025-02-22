@@ -5,12 +5,12 @@ using SharpDX.Direct3D9;
 
 namespace BrickHack11 
 {
-    class PlayerObject : GameObject
+    class Player : GameObject
     {
       private bool _isAlive;
       private int _health;
       private float _speed = 3f;
-        public PlayerObject(Texture2D spriteSheet, Rectangle position, Rectangle spriteFrame, int health, float speed) : base(spriteSheet, position, spriteFrame)
+        public Player(Texture2D spriteSheet, Rectangle position, Rectangle spriteFrame, int health, float speed) : base(spriteSheet, position, spriteFrame)
         {
         }
 
