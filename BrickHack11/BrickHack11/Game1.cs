@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BrickHack11.Patterns;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace BrickHack11
 {
@@ -16,11 +18,14 @@ namespace BrickHack11
     public class Game1 : Game
     {
         private GameState _gameState;
+        private GameState _previousGameState;
         private SpriteManager sprites;
         
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Player player;
+        private Player _player;
+
+        private List<Bullet> _bullets;
         
         MainMenu mainMenu;
         
@@ -38,7 +43,9 @@ namespace BrickHack11
             _graphics.IsFullScreen = false;
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1080;
-            _graphics.ApplyChanges();   
+            _graphics.ApplyChanges();
+            _bullets = new List<Bullet>();
+            
             base.Initialize();
         }
 
@@ -47,7 +54,7 @@ namespace BrickHack11
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             sprites = new SpriteManager(this.Content);
-            player = new Player(sprites.PlayerSprite, new Rectangle(100, 100, 64, 64), new Rectangle(0,0,64,64), 3, 3f);
+            _player = new Player(sprites.PlayerSprite, new Rectangle(100, 100, 64, 64), new Rectangle(0,0,64,64), 3, 3f);
             mainMenu = new MainMenu(sprites.MainMenuTexture);
         }
 
@@ -58,16 +65,26 @@ namespace BrickHack11
             switch (_gameState)
             {
                 case GameState.MainMenu:
-                mainMenu.Update();
-                    if(mainMenu.playClick == true){
+                    mainMenu.Update();
+                        if(mainMenu.playClick == true){
+                            _gameState = GameState.Playing;
+                        }
+                        else if (mainMenu.quitClick == true){
+                            Exit();
+                        }
                         _gameState = GameState.Playing;
-                    }
-                    else if (mainMenu.quitClick == true){
-                        Exit();
-                    }
-					break;
+					    break;
 				case GameState.Playing:
-                    player.Update();
+                    if (_previousGameState == GameState.MainMenu)
+                    {
+                        var pattern = new CirclePattern(10, 1.0f);
+                        pattern.Spawn(new Vector2(100, 100), 
+                            sprites.PlayerSprite, 
+                            new Rectangle(0, 0, 0, 0),
+                            _bullets);
+                    }
+
+                    _player.Update();
 					break;
 				case GameState.Paused:
 					break;
@@ -77,6 +94,7 @@ namespace BrickHack11
 					break;
             }
 
+            _previousGameState = _gameState;
             base.Update(gameTime);
         }
 
