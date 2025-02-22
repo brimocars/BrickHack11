@@ -20,6 +20,7 @@ namespace BrickHack11
         
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private PlayerObject player;
 
         public Game1()
         {
@@ -40,6 +41,8 @@ namespace BrickHack11
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            // Create PlayerObject
+            player = new PlayerObject(ballTexture, new Rectangle(100, 100, 64, 64), new Rectangle(0,0,64,64));
         }
 
         protected override void Update(GameTime gameTime)

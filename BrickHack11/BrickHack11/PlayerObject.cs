@@ -24,6 +24,8 @@ namespace BrickHack11
             newPos.Y += (int)speed;
           if(state.IsKeyDown(Keys.D))
             newPos.X += (int)speed;
+
+          Position = newPos;
         }
     }
 
