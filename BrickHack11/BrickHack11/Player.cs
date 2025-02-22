@@ -8,14 +8,17 @@ namespace BrickHack11
 {
     class Player : GameObject
     {
-        private bool isGodMode = true;
+        private bool isGodMode = false;
         private bool _isAlive;
         private int _health;
         private float _speed = 3f;
-        public bool _canParry;
+        public float _parryCooldown = 0f;
+        private float _cooldownDuration = 1f;
         public Rectangle _parryBound;
+        private int currentIFrames = 0;
 
         public bool IsAlive { get { return _isAlive; } private set { _isAlive = value; } }
+        public bool IsInvulnerable { get { return currentIFrames > 0; } }
 
         public Player(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, int health, float speed) :
           base(spriteSheet, position, hitbox, spriteFrame)
@@ -23,7 +26,6 @@ namespace BrickHack11
             _isAlive = true;
             _health = health;
             _speed = speed;
-            _canParry = false;
 
             // Create parry bounds based on player frame:
             _parryBound = new Rectangle((int)Position.X, (int)Position.Y - Hitbox.Height / 2, Hitbox.Width, Hitbox.Height / 2);
@@ -31,6 +33,7 @@ namespace BrickHack11
 
         public void Update()
         {
+            currentIFrames--;
             if (!_isAlive)
             {
                 // game over state
@@ -52,6 +55,12 @@ namespace BrickHack11
 
             // Update parry box:
             _parryBound = new Rectangle((int)Position.X, (int)Position.Y - Hitbox.Height / 2, Hitbox.Width, Hitbox.Height / 2);
+
+            // Update cooldown:
+            if (!canParry()) 
+            {
+                _parryCooldown -= (1/60);
+            }
         }
 
         public void TakeDamage()
@@ -62,12 +71,23 @@ namespace BrickHack11
             {
                 _isAlive = false;
             }
+            currentIFrames = Constants.iFrames;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(SpriteSheet, Hitbox, SpriteFrame, Color.Green);
             spriteBatch.Draw(SpriteSheet, _parryBound, SpriteFrame, Color.Orange);
+        }
+
+        public bool canParry()
+        {
+            return _parryCooldown <= 0;
+        }
+
+        internal void resetCooldown()
+        {
+            _parryCooldown = _cooldownDuration;
         }
     }
 

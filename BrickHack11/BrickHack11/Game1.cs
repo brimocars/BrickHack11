@@ -60,11 +60,11 @@ namespace BrickHack11
             var startingPosition = new Vector2(100, 100);
 
             _player = new Player(
-                sprites.PlayerSprite, 
-                new Vector2(startingPosition.X, startingPosition.Y), 
-                new Rectangle((int)startingPosition.X, (int)startingPosition.Y, 64, 64), 
-                new Rectangle(0,0,64,64), 3, 6.8f);
-            
+                sprites.PlayerSprite,
+                new Vector2(startingPosition.X, startingPosition.Y),
+                new Rectangle((int)startingPosition.X, (int)startingPosition.Y, 64, 64),
+                new Rectangle(0, 0, 64, 64), 3, 6.8f);
+
             mainMenu = new MainMenu(sprites.MainMenuTexture, sprites.PlayButtonTexture, sprites.ExitButtonTexture);
         }
 
@@ -121,7 +121,7 @@ namespace BrickHack11
                         bullet.Update(gameTime);
 
                         // Check collision:
-                        if (_player.Hitbox.Intersects(bullet.Hitbox))
+                        if (!_player.IsInvulnerable && _player.Hitbox.Intersects(bullet.Hitbox))
                         {
                             _bullets.RemoveAt(i);
                             _gameState = GameState.HitStop;
@@ -131,10 +131,11 @@ namespace BrickHack11
                         }
                     }
 
-                    if (_enemy.Hitbox.Intersects(_player.Hitbox))
+                    if (_enemy.Hitbox.Intersects(_player.Hitbox) && !_player.IsInvulnerable)
                     {
                         _gameState = GameState.HitStop;
                         hitStopTimer = 0;
+
                         _player.TakeDamage();
                     }
 
@@ -150,11 +151,12 @@ namespace BrickHack11
                         foreach (var bullet in _bullets)
                         {
                             // Check collision:
-                            if (_player._parryBound.Intersects(bullet.Hitbox))
+                            if (_player._parryBound.Intersects(bullet.Hitbox) && _player.canParry())
                             {
                                 _gameState = GameState.HitStop;
                                 hitStopTimer = 0;
                                 bullet.Velocity = new Vector2(-bullet.Velocity.X, -bullet.Velocity.Y);
+                                _player.resetCooldown();
                             }
                         }
 
