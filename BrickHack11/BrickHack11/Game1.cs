@@ -109,7 +109,7 @@ namespace BrickHack11
                     mainMenu.Draw(_spriteBatch);
                     break;
                 case GameState.Playing:
-                    player.Draw(_spriteBatch);
+                    _player.Draw(_spriteBatch);
                     break;
                 case GameState.Paused:
                     break;
