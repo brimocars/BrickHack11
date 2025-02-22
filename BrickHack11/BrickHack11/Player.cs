@@ -53,7 +53,7 @@ namespace BrickHack11
            // Check Parry:
            if(_canParry && state.IsKeyDown(Keys.Space))
            {
-            performParry();
+            //performParry();
            }
         }
 

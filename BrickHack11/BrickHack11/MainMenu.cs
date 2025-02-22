@@ -22,6 +22,7 @@ public class MainMenu
 
         public bool playClick = false;
         public bool quitClick = false;
+        public bool mouseClick = false;
 
         public MainMenu(Texture2D bgTexture, Texture2D playButton, Texture2D quitButton)  
         {
@@ -44,13 +45,17 @@ public class MainMenu
         public void Update()
         {
             MouseState ms = Mouse.GetState();
-            if (ms.LeftButton == ButtonState.Released){
+            if (ms.LeftButton == ButtonState.Pressed &&  mouseClick == false){
+                mouseClick = true;
                 Rectangle mouseRectangle = new Rectangle(ms.X, ms.Y, 1,1);
                 if(mouseRectangle.Intersects(playButton)){
                     playClick = true;
                 }
                 else if(mouseRectangle.Intersects(quitButton)){
                     quitClick = true;
+                }
+                else{
+                    mouseClick = false;
                 }
             }
         }
