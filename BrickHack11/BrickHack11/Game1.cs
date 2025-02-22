@@ -113,7 +113,7 @@ namespace BrickHack11
                         // Check collision:
                         if (_player._parryBound.Intersects(bullet.Hitbox))
                         {
-                            _player.setParry(true, bullet);
+                            // _player.setParry(true, bullet);
                         }
                     }
 
@@ -132,7 +132,7 @@ namespace BrickHack11
                     if (state.IsKeyDown(Keys.Space) && _player._canParry)
                     {
                         // PARRY!!!
-                        _player._bulletToParry.Velocity = new Vector2(-_player._bulletToParry.Velocity.X, -_player._bulletToParry.Velocity.Y);
+                        // _player._bulletToParry.Velocity = new Vector2(-_player._bulletToParry.Velocity.X, -_player._bulletToParry.Velocity.Y);
                     }
 
                     _previousGameState = GameState.Playing;
