@@ -12,7 +12,6 @@ namespace BrickHack11
         private int _health;
         private float _speed = 3f;
         public bool _canParry;
-        public Bullet _bulletToParry;
         public Rectangle _parryBound;
         public Player(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, int health, float speed) :
           base(spriteSheet, position, hitbox, spriteFrame)
@@ -49,12 +48,6 @@ namespace BrickHack11
 
             // Update parry box:
             _parryBound = new Rectangle((int)Position.X + Hitbox.Width, (int)Position.Y, Hitbox.Width / 2, Hitbox.Height);
-
-            // Check Parry:
-            if (_canParry && state.IsKeyDown(Keys.Space))
-            {
-                //performParry();
-            }
         }
 
         public void TakeDamage()
@@ -69,12 +62,6 @@ namespace BrickHack11
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(SpriteSheet, Position, SpriteFrame, Color.Green);
-        }
-
-        public void setParry(bool canParry, Bullet parryBullet)
-        {
-            _canParry = canParry;
-            _bulletToParry = parryBullet;
         }
     }
 

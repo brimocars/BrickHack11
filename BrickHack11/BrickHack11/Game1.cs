@@ -105,11 +105,6 @@ namespace BrickHack11
                     foreach (var bullet in _bullets)
                     {
                         bullet.Update(gameTime);
-                        // Check collision:
-                        if (_player._parryBound.Intersects(bullet.Hitbox))
-                        {
-                            _player.setParry(true, bullet);
-                        }
                     }
                     
                     _enemy.Update(gameTime);
@@ -117,10 +112,17 @@ namespace BrickHack11
                     _player.Update();
                     // Check for parry:
                     KeyboardState state = Keyboard.GetState();
-                    if(state.IsKeyDown(Keys.Space) && _player._canParry)
+                    if(state.IsKeyDown(Keys.Space))
                     {
-                        // PARRY!!!
-                        _player._bulletToParry.Velocity = new Vector2(-_player._bulletToParry.Velocity.X, -_player._bulletToParry.Velocity.Y);
+                        foreach (var bullet in _bullets)
+                        {
+                            // Check collision:
+                            if (_player._parryBound.Intersects(bullet.Hitbox))
+                            {
+                             bullet.Velocity = new Vector2(-bullet.Velocity.X, -bullet.Velocity.Y);
+                            }
+                        }
+                       
                     }
 
                     _previousGameState = GameState.Playing;
