@@ -25,14 +25,13 @@ namespace BrickHack11
         public void Update(GameTime gameTime)
         {
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            
+
+            Velocity = new Vector2(Velocity.X + Acceleration.X, Velocity.Y + Acceleration.Y);
             Position = new Rectangle(
                 (int)(Position.X + Velocity.X * elapsed),
                 (int)(Position.Y + Velocity.Y * elapsed),
                 Position.Width,
                 Position.Height);
-            
-            
         }
         
         public void Draw(SpriteBatch spriteBatch)

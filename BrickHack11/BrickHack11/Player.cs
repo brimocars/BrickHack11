@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,11 +11,17 @@ namespace BrickHack11
       private bool _isAlive;
       private int _health;
       private float _speed = 3f;
+      private bool _canParry;
+      public Rectangle _parryBound;
         public Player(Texture2D spriteSheet, Rectangle position, Rectangle spriteFrame, int health, float speed) : base(spriteSheet, position, spriteFrame)
         {
           _isAlive = true;
           _health = health;
           _speed = speed;
+          _canParry = false;
+
+          // Create parry bounds based on player frame:
+          _parryBound = new Rectangle(position.X + position.Width, position.Y, position.Width / 2,  position.Height);
         }
 
         public void Update()
@@ -26,6 +33,7 @@ namespace BrickHack11
           KeyboardState state = Keyboard.GetState();
           Rectangle newPos = Position;
 
+
           if(state.IsKeyDown(Keys.W))
             newPos.Y -= (int)_speed;
           if(state.IsKeyDown(Keys.A))
@@ -36,6 +44,9 @@ namespace BrickHack11
             newPos.X += (int)_speed;
 
           Position = newPos;
+
+          //Update parry box:
+           _parryBound = new Rectangle(Position.X + Position.Width, Position.Y, Position.Width / 2,  Position.Height);
         }
 
         public void TakeDamage()
@@ -50,6 +61,11 @@ namespace BrickHack11
         public void Draw(SpriteBatch spriteBatch)
         {
           spriteBatch.Draw(SpriteSheet, Position, SpriteFrame, Color.Green);
+        }
+
+        public void setParry(bool canParry)
+        {
+            _canParry = canParry;
         }
     }
 
