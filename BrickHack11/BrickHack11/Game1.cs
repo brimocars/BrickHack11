@@ -91,6 +91,11 @@ namespace BrickHack11
                     foreach (var bullet in _bullets)
                     {
                         bullet.Update(gameTime);
+                        // Check collision:
+                        if (_player._parryBound.Intersects(bullet.Position))
+                        {
+                            _player.setParry(true);
+                        }
                     }
                     _player.Update();
                     _previousGameState = GameState.Playing;
