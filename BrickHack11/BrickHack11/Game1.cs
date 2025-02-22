@@ -83,7 +83,6 @@ namespace BrickHack11
                         Exit();
                     }
                     
-                    _gameState = GameState.Playing;
                     _previousGameState = GameState.MainMenu;
 					break;
                 
@@ -164,8 +163,6 @@ namespace BrickHack11
             }
 
             // TODO: Add your drawing code here
-            _player.Draw(_spriteBatch);
-            mainMenu.Draw(_spriteBatch);
 
             _spriteBatch.End();
             base.Draw(gameTime);
