@@ -35,7 +35,10 @@ namespace BrickHack11
         protected override void Initialize()
         {
             _gameState = GameState.MainMenu;
-            mainMenu = new MainMenu();
+            _graphics.IsFullScreen = false;
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferHeight = 1080;
+            _graphics.ApplyChanges();   
             base.Initialize();
         }
 
@@ -45,6 +48,7 @@ namespace BrickHack11
 
             sprites = new SpriteManager(this.Content);
             player = new Player(sprites.PlayerSprite, new Rectangle(100, 100, 64, 64), new Rectangle(0,0,64,64), 3, 3f);
+            mainMenu = new MainMenu(sprites.MainMenuTexture);
         }
 
         protected override void Update(GameTime gameTime)
@@ -85,6 +89,7 @@ namespace BrickHack11
 
             // TODO: Add your drawing code here
             player.Draw(_spriteBatch);
+            mainMenu.Draw(_spriteBatch);
 
             _spriteBatch.End();
             base.Draw(gameTime);
