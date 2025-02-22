@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace BrickHack11
 {
-    abstract class GameObject
+    abstract public class GameObject
     {
         private Texture2D spriteSheet;
         private Rectangle position;
