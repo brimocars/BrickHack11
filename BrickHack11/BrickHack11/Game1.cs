@@ -88,14 +88,14 @@ namespace BrickHack11
                 
                 
 				case GameState.Playing:
-                    //if (_previousGameState == GameState.MainMenu)
-                    //{
+                    if (_previousGameState == GameState.MainMenu)
+                    {
                         var pattern = new CirclePattern(100, 300f);
                         pattern.Spawn(new Vector2(700, 500), 
                             sprites.PlayerSprite, 
                             new Rectangle(0, 0, 10, 10),
                             _bullets);
-                    //}
+                    }
 
                     for(int i = 0; i < _bullets.Count; i++)
                     {
