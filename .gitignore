@@ -400,3 +400,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 .idea
+BrickHack11/BrickHack11/.vscode/launch.json
+BrickHack11/BrickHack11/.vscode/tasks.json

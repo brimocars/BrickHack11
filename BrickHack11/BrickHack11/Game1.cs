@@ -51,7 +51,6 @@ namespace BrickHack11
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
             switch (_gameState)
             {
                 case GameState.MainMenu:
@@ -63,8 +62,7 @@ namespace BrickHack11
                         Exit();
                     }
 					break;
-				//case GameState.Playing:
-                default :
+				case GameState.Playing:
                     player.Update();
 					break;
 				case GameState.Paused:
