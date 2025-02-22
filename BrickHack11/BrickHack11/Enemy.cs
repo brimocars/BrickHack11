@@ -6,32 +6,52 @@ namespace BrickHack11;
 
 public class Enemy : GameObject
 {
-    private bool _isAlive; // did the player win? am i spawned in?
+    private bool _isAlive;
     private int _health;
     private float _speed;
-    private List<Bullet> _bullets; // commented until briguy adds bullets
-    private float _attackCooldown; // how long between attacks?
-    private float _timeSinceLastAttack; // how long until i can spawn another bullet pattern?
-    
-    public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, int health, float speed) : 
-        base(spriteSheet, position, hitbox, spriteFrame)
+    private int _direction; // 1 = right, -1 = left
+    private float _attackCooldown;
+    private float _timeSinceLastAttack;
+    private List<Bullet> _bullets;
+
+    private float _leftBound;
+    private float _rightBound;
+
+    public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, int health, float speed) 
+        : base(spriteSheet, position, hitbox, spriteFrame)
     {
         _isAlive = true;
         _health = health;
         _speed = speed;
+        _direction = 1; // Start moving right
         _bullets = new List<Bullet>();
-        _attackCooldown = 3.0f; // every three seconds spawn a pattern
+        _attackCooldown = 3.0f;
         _timeSinceLastAttack = 0;
+
+        _leftBound = 100;
+        _rightBound = 900;
     }
-    
+
     public void Update(GameTime gameTime)
     {
         if (!_isAlive) return;
-        
-        // Example movement: bro just moves downward
-        Position = new Vector2(Position.X, Position.Y + (int)(_speed * gameTime.ElapsedGameTime.TotalSeconds));
 
-        // calculate how long since spawning last pattern
+        // Move left or right
+        Position = new Vector2(Position.X + _direction * _speed * (float)gameTime.ElapsedGameTime.TotalSeconds, Position.Y);
+
+        // Reverse direction at bounds
+        if (Position.X <= _leftBound)
+        {
+            Position = new Vector2(_leftBound, Position.Y);
+            _direction = 1; // Move right
+        }
+        else if (Position.X >= _rightBound)
+        {
+            Position = new Vector2(_rightBound, Position.Y);
+            _direction = -1; // Move left
+        }
+
+        // Attack logic
         _timeSinceLastAttack += (float)gameTime.ElapsedGameTime.TotalSeconds;
         if (_timeSinceLastAttack >= _attackCooldown)
         {
@@ -41,7 +61,9 @@ public class Enemy : GameObject
 
         // Update bullets
         foreach (var bullet in _bullets)
+        {
             bullet.Update(gameTime);
+        }
     }
 
     private void SpawnPattern()
@@ -60,10 +82,9 @@ public class Enemy : GameObject
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        if (!_isAlive) // only draw bro if hes alive
-        {
-            spriteBatch.Draw(SpriteSheet, Position, SpriteFrame, Color.Red);
-        }
+        if (!_isAlive) return;
+
+        spriteBatch.Draw(SpriteSheet, Position, SpriteFrame, Color.White);
 
         foreach (var bullet in _bullets)
         {

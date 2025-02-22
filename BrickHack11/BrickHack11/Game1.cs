@@ -25,6 +25,7 @@ namespace BrickHack11
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Player _player;
+        private Enemy _enemy;
 
         private List<Bullet> _bullets;
         
@@ -90,6 +91,15 @@ namespace BrickHack11
 				case GameState.Playing:
                     if (_previousGameState == GameState.MainMenu)
                     {
+                        var enemy = new Enemy(
+                            sprites.PlayerSprite,
+                            new Vector2(300, 300),
+                            new Rectangle(300, 300, sprites.PlayerSprite.Width - 30, sprites.PlayerSprite.Height - 30),
+                            new Rectangle(0, 0, sprites.PlayerSprite.Width, sprites.PlayerSprite.Height),
+                            3,
+                            400);
+
+                        _enemy = enemy;
                         var pattern = new CirclePattern(100, 300f);
                         pattern.Spawn(new Vector2(700, 500), 
                             sprites.PlayerSprite, 
@@ -126,6 +136,24 @@ namespace BrickHack11
                     {
                         // PARRY!!!
                         _player._bulletToParry.Velocity = new Vector2(-_player._bulletToParry.Velocity.X, -_player._bulletToParry.Velocity.Y);
+                    }
+                    
+                    _enemy.Update(gameTime);
+                    
+                    _player.Update();
+                    // Check for parry:
+                    KeyboardState state = Keyboard.GetState();
+                    if(state.IsKeyDown(Keys.Space))
+                    {
+                        foreach (var bullet in _bullets)
+                        {
+                            // Check collision:
+                            if (_player._parryBound.Intersects(bullet.Hitbox))
+                            {
+                             bullet.Velocity = new Vector2(-bullet.Velocity.X, -bullet.Velocity.Y);
+                            }
+                        }
+                       
                     }
 
                     if (!_player.IsAlive)
@@ -167,7 +195,9 @@ namespace BrickHack11
                 
                 
                 case GameState.Playing:
-                    _player.Draw(_spriteBatch);
+                    _player?.Draw(_spriteBatch);
+                    _enemy?.Draw(_spriteBatch);
+
                     foreach (Bullet bullet in _bullets)
                     {  
                         bullet.Draw(_spriteBatch);

@@ -19,18 +19,23 @@ public class StreamPattern : IBulletPattern
 
     public void Spawn(Vector2 origin, Texture2D bulletTexture, Rectangle bulletFrame, List<Bullet> bulletList)
     {
-        Vector2 direction = new Vector2(0, 1); // bullets go straight down
+        // Bullets go straight down, using the bulletSpeed parameter.
+        Vector2 velocity = new Vector2(0, _bulletSpeed);
+        
         for (int i = 0; i < _numBullets; i++)
         {
             float offsetX = (i - _numBullets / 2) * _offset;
+            // Use the calculated bulletPosition instead of the origin.
             Vector2 bulletPosition = new Vector2(origin.X + offsetX, origin.Y);
+            
             Bullet bullet = new Bullet(
                 bulletTexture,
-                new Vector2((int)origin.X, (int)origin.Y),
-                new Rectangle((int)origin.X, (int)origin.Y, 10, 10),
+                bulletPosition,
+                new Rectangle((int)bulletPosition.X, (int)bulletPosition.Y, 10, 10),
                 bulletFrame,
-                new Vector2(0,-10),
-                new Vector2(0, 0));
+                velocity,
+                new Vector2(0, 0)
+            );
 
             bulletList.Add(bullet);
         }
