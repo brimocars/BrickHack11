@@ -45,7 +45,7 @@ public class MainMenu
         public void Update()
         {
             MouseState ms = Mouse.GetState();
-            if (ms.LeftButton == ButtonState.Pressed){
+            if (ms.LeftButton == ButtonState.Released){
                 Rectangle mouseRectangle = new Rectangle(ms.X, ms.Y, 0,0);
                 if(mouseRectangle.Intersects(playButton)){
                     playClick = true;
