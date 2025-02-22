@@ -124,7 +124,12 @@ namespace BrickHack11
                            // _player.setParry(true, bullet);
                         }
                     }
-                    
+
+                    if (_enemy.Hitbox.Intersects(_player.Hitbox))
+                    {
+                        _player.TakeDamage();
+                    }
+
                     _enemy.Update(gameTime);
                     
                     _player.Update();
