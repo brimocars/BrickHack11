@@ -56,7 +56,7 @@ namespace BrickHack11
 
             sprites = new SpriteManager(this.Content);
             _player = new Player(sprites.PlayerSprite, new Rectangle(100, 100, 64, 64), new Rectangle(0,0,64,64), 3, 3f);
-            mainMenu = new MainMenu(sprites.MainMenuTexture);
+            mainMenu = new MainMenu(sprites.MainMenuTexture, sprites.PlayButtonTexture, sprites.ExitButtonTexture);
         }
 
         protected override void Update(GameTime gameTime)
@@ -83,10 +83,10 @@ namespace BrickHack11
 				case GameState.Playing:
                     if (_previousGameState == GameState.MainMenu)
                     {
-                        var pattern = new CirclePattern(300, 1.0f);
-                        pattern.Spawn(new Vector2(100, 100), 
+                        var pattern = new CirclePattern(100, 1f);
+                        pattern.Spawn(new Vector2(300, 500), 
                             sprites.PlayerSprite, 
-                            new Rectangle(0, 0, 0, 0),
+                            new Rectangle(0, 0, 10, 10),
                             _bullets);
                     }
 
@@ -156,6 +156,8 @@ namespace BrickHack11
             }
 
             // TODO: Add your drawing code here
+            _player.Draw(_spriteBatch);
+            mainMenu.Draw(_spriteBatch);
 
             _spriteBatch.End();
             base.Draw(gameTime);
