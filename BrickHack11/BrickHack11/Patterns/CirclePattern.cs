@@ -25,6 +25,7 @@ public class CirclePattern : IBulletPattern
             Vector2 velocity = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * _bulletSpeed;
             Bullet bullet = new Bullet(
                 bulletTexture,
+                new Vector2((int)origin.X, (int)origin.Y),
                 new Rectangle((int)origin.X, (int)origin.Y, 10, 10),
                 bulletFrame,
                 velocity,

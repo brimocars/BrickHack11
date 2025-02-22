@@ -13,8 +13,8 @@ public class Enemy : GameObject
     private float _attackCooldown; // how long between attacks?
     private float _timeSinceLastAttack; // how long until i can spawn another bullet pattern?
     
-    public Enemy(Texture2D spriteSheet, Rectangle position, Rectangle spriteFrame, int health, float speed) : 
-        base(spriteSheet, position, spriteFrame)
+    public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, int health, float speed) : 
+        base(spriteSheet, position, hitbox, spriteFrame)
     {
         _isAlive = true;
         _health = health;
@@ -29,7 +29,7 @@ public class Enemy : GameObject
         if (!_isAlive) return;
         
         // Example movement: bro just moves downward
-        Position = new Rectangle(Position.X, Position.Y + (int)(_speed * gameTime.ElapsedGameTime.TotalSeconds), Position.Width, Position.Height);
+        Position = new Vector2(Position.X, Position.Y + (int)(_speed * gameTime.ElapsedGameTime.TotalSeconds));
 
         // calculate how long since spawning last pattern
         _timeSinceLastAttack += (float)gameTime.ElapsedGameTime.TotalSeconds;

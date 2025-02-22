@@ -55,7 +55,15 @@ namespace BrickHack11
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             sprites = new SpriteManager(this.Content);
-            _player = new Player(sprites.PlayerSprite, new Rectangle(100, 100, 64, 64), new Rectangle(0,0,64,64), 3, 3f);
+
+            var startingPosition = new Vector2(100, 100);
+            
+            _player = new Player(
+                sprites.PlayerSprite, 
+                new Vector2(startingPosition.X, startingPosition.Y), 
+                new Rectangle((int)startingPosition.X, (int)startingPosition.Y, 64, 64), 
+                new Rectangle(0,0,64,64), 3, 3f);
+            
             mainMenu = new MainMenu(sprites.MainMenuTexture, sprites.PlayButtonTexture, sprites.ExitButtonTexture);
         }
 
@@ -93,9 +101,9 @@ namespace BrickHack11
                     {
                         bullet.Update(gameTime);
                         // Check collision:
-                        if (_player._parryBound.Intersects(bullet.Position))
+                        if (_player._parryBound.Intersects(bullet.Hitbox))
                         {
-                            //_player.setParry(true);
+                            _player.setParry(true);
                         }
                     }
                     

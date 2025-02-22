@@ -6,18 +6,12 @@ namespace BrickHack11
 {
     public class Bullet : GameObject
     {
-        public Texture2D SpriteSheet { get; private set; }
-        public Rectangle Position { get; private set; }
-        public Rectangle SpriteFrame { get; private set; }
         public Vector2 Velocity { get; private set; }
         public Vector2 Acceleration { get; private set; }
         
-        public Bullet(Texture2D spriteSheet, Rectangle position, Rectangle spriteFrame, Vector2 velocity, Vector2 acceleration)
-            : base(spriteSheet, position, spriteFrame)
+        public Bullet(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, Vector2 velocity, Vector2 acceleration)
+            : base(spriteSheet, position, hitbox, spriteFrame)
         {
-            SpriteSheet = spriteSheet;
-            Position = position;
-            SpriteFrame = spriteFrame;
             Velocity = velocity;
             Acceleration = acceleration;
         }
@@ -27,11 +21,7 @@ namespace BrickHack11
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             Velocity = new Vector2(Velocity.X + Acceleration.X, Velocity.Y + Acceleration.Y);
-            Position = new Rectangle(
-                (int)(Position.X + Velocity.X * elapsed),
-                (int)(Position.Y + Velocity.Y * elapsed),
-                Position.Width,
-                Position.Height);
+            Position = new Vector2((Position.X + Velocity.X * elapsed), (Position.Y + Velocity.Y * elapsed));
         }
         
         public void Draw(SpriteBatch spriteBatch)
