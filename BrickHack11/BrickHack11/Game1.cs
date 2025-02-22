@@ -145,6 +145,7 @@ namespace BrickHack11
                     KeyboardState state = Keyboard.GetState();
                     if (state.IsKeyDown(Keys.Space))
                     {
+                        // Check parry for bullets:
                         foreach (var bullet in _bullets)
                         {
                             // Check collision:
@@ -156,6 +157,14 @@ namespace BrickHack11
                             }
                         }
 
+                        // Check for a melee attack:
+                        if (_player._parryBound.Intersects(_enemy.Hitbox))
+                        {
+                            // Run a melee animation?
+                            _gameState = GameState.HitStop;
+                            hitStopTimer = 0;
+                            _enemy.TakeDamage();
+                        }
                     }
 
                     if (!_player.IsAlive)
