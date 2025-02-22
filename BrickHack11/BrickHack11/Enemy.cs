@@ -27,7 +27,7 @@ namespace BrickHack11
             _health = health;
             _speed = speed;
             _direction = 1; // Start moving right
-            _attackCooldown = 1.2f;
+            _attackCooldown = 10f;
             _timeSinceLastAttack = _attackCooldown;
             _leftBound = 60;
             _rightBound = 860;
@@ -66,11 +66,13 @@ namespace BrickHack11
             {
                 if (_patterns.Count > 0)
                 {
+                    _timeSinceLastAttack = 0;
                     int index = _random.Next(_patterns.Count);
-                    _patterns[index].Spawn(Position, SpriteSheet, new Rectangle(0, 0, 10, 10), newBullets);
+                    var pattern = _patterns[index];
+                    
+                    pattern.Spawn(Position, SpriteSheet, new Rectangle(0, 0, 10, 10), newBullets);
+                    _timeSinceLastAttack += pattern.Cost;
                 }
-
-                _timeSinceLastAttack = 0;
             }
 
             return newBullets;

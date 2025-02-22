@@ -28,18 +28,5 @@ namespace BrickHack11
         {
             spriteBatch.Draw(SpriteSheet, Hitbox, Color.White);
         }
-
-        // public bool Move()
-        // {
-        //     velocity = new Vector2(velocity.X + acceleration.X, velocity.Y + acceleration.Y);
-        //     Position = new Rectangle((int)(Position.X + velocity.X), (int)(Position.Y + velocity.Y), Position.Width, Position.Height);
-        //     // Check if bullet is off screen
-        //     if (Position.X > Constants.ScreenWidth || Position.X < 0 || Position.Y > Constants.ScreenHeight || Position.Y < 0)
-        //     {
-        //         // bullet is out of bounds
-        //         return true;
-        //     }
-        //     return false;
-        // }
     }
 }

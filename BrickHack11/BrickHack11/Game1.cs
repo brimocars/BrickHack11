@@ -91,8 +91,9 @@ namespace BrickHack11
                     {
                         var patterns = new List<IBulletPattern>
                         {
-                            new CirclePattern(10, 800),
-                            new CirclePattern(20, 800)
+                            new CirclePattern(30, 300, 10f),
+                            new CirclePattern(10, 750, 8.5f),
+                            // new StreamPattern(30, 700, 100, 1f)
                         };
                         
                         _enemy = new Enemy(
@@ -151,7 +152,6 @@ namespace BrickHack11
                              bullet.Velocity = new Vector2(-bullet.Velocity.X, -bullet.Velocity.Y);
                             }
                         }
-                        
                     }
                     
                     if (!_player.IsAlive)
@@ -180,7 +180,8 @@ namespace BrickHack11
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, 
+                null, null, null, null);
 
             switch (_gameState)
             {
