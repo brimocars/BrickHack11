@@ -115,27 +115,14 @@ namespace BrickHack11
                         // Check collision:
                         if (_player.Hitbox.Intersects(bullet.Hitbox))
                         {
-                            //System.Diagnostics.Debug.WriteLine("Player X: " + _player.Position.X + " Y: " + _player.Position.Y, );
-                            System.Diagnostics.Debug.WriteLine("Bullet X: " + bullet.Hitbox.X + " Y: " + bullet.Hitbox.Y + " width: " + bullet.Hitbox.Width + " height: " + bullet.Hitbox.Height);
-                            System.Diagnostics.Debug.WriteLine("Player X: " + _player.Hitbox.X + " Y: " + _player.Hitbox.Y + " width: " + _player.Hitbox.Width + " height: " + _player.Hitbox.Height);
-
                             _bullets.RemoveAt(i);
                             i++;
-                            //_player.TakeDamage();
+                            _player.TakeDamage();
                         }
                         else if (_player._parryBound.Intersects(bullet.Hitbox))
                         {
-                            _player.setParry(true, bullet);
+                           // _player.setParry(true, bullet);
                         }
-                    }
-                    
-                    _player.Update();
-                    // Check for parry:
-                    KeyboardState state = Keyboard.GetState();
-                    if(state.IsKeyDown(Keys.Space) && _player._canParry)
-                    {
-                        // PARRY!!!
-                        _player._bulletToParry.Velocity = new Vector2(-_player._bulletToParry.Velocity.X, -_player._bulletToParry.Velocity.Y);
                     }
                     
                     _enemy.Update(gameTime);
