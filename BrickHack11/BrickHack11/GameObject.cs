@@ -19,7 +19,10 @@ namespace BrickHack11
         public Vector2 Position
         {
             get { return position; }
-            set { position = value; }
+            set {
+                position = value;
+                hitbox = new Rectangle((int)Position.X, (int)Position.Y, hitbox.X, hitbox.Y);
+            }
         }
 
         public Rectangle Hitbox
