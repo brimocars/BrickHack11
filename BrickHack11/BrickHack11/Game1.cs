@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+
+
 namespace BrickHack11
 {
     enum GameState
@@ -20,6 +22,9 @@ namespace BrickHack11
         
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        
+        MainMenu mainMenu;
+        
 
         public Game1()
         {
@@ -73,4 +78,6 @@ namespace BrickHack11
             base.Draw(gameTime);
         }
     }
+
+    
 }
