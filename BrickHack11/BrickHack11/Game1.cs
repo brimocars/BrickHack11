@@ -60,11 +60,11 @@ namespace BrickHack11
             var startingPosition = new Vector2(100, 100);
 
             _player = new Player(
-                sprites.PlayerSprite,
-                new Vector2(startingPosition.X, startingPosition.Y),
-                new Rectangle((int)startingPosition.X, (int)startingPosition.Y, 64, 64),
-                new Rectangle(0, 0, 64, 64), 3, 3f);
-
+                sprites.PlayerSprite, 
+                new Vector2(startingPosition.X, startingPosition.Y), 
+                new Rectangle((int)startingPosition.X, (int)startingPosition.Y, 64, 64), 
+                new Rectangle(0,0,64,64), 3, 6.8f);
+            
             mainMenu = new MainMenu(sprites.MainMenuTexture, sprites.PlayButtonTexture, sprites.ExitButtonTexture);
         }
 
