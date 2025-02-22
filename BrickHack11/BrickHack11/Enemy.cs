@@ -27,8 +27,8 @@ namespace BrickHack11
             _health = health;
             _speed = speed;
             _direction = 1; // Start moving right
-            _attackCooldown = 0f;
-            _timeSinceLastAttack = 0;
+            _attackCooldown = 3f;
+            _timeSinceLastAttack = 3f;
             _leftBound = 60;
             _rightBound = 860;
             _patterns = patterns;
@@ -58,7 +58,7 @@ namespace BrickHack11
             _timeSinceLastAttack += (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
-        public List<Bullet> SpawnBullets()
+        public List<Bullet> TrySpawnRandomPattern()
         {
             List<Bullet> newBullets = new List<Bullet>();
 

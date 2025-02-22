@@ -136,15 +136,22 @@ namespace BrickHack11
                     }
 
                     // Handle new bullets from enemy
-                    List<Bullet> newBullets = _enemy.SpawnBullets();
+                    List<Bullet> newBullets = _enemy.TrySpawnRandomPattern();
                     _bullets.AddRange(newBullets);
 
                     // Check for parry:
                     KeyboardState state = Keyboard.GetState();
-                    if (state.IsKeyDown(Keys.Space) && _player._canParry)
+                    if (state.IsKeyDown(Keys.Space))
                     {
-                        // PARRY!!!
-                        // _player._bulletToParry.Velocity = new Vector2(-_player._bulletToParry.Velocity.X, -_player._bulletToParry.Velocity.Y);
+                        foreach (var bullet in _bullets)
+                        {
+                            // Check collision:
+                            if (_player._parryBound.Intersects(bullet.Hitbox))
+                            {
+                             bullet.Velocity = new Vector2(-bullet.Velocity.X, -bullet.Velocity.Y);
+                            }
+                        }
+                        
                     }
                     
                     if (!_player.IsAlive)
