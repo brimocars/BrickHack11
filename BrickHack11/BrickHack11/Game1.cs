@@ -17,7 +17,6 @@ namespace BrickHack11
     {
         private GameState _gameState;
         private SpriteManager sprites;
-        private Texture2D ballTexture;
         
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -36,7 +35,7 @@ namespace BrickHack11
         protected override void Initialize()
         {
             _gameState = GameState.MainMenu;
-
+            mainMenu = new MainMenu();
             base.Initialize();
         }
 
@@ -45,9 +44,7 @@ namespace BrickHack11
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             sprites = new SpriteManager(this.Content);
-            // TODO: use this.Content to load your game content here
-            // Load Player:
-            player = new Player(ballTexture, new Rectangle(100, 100, 64, 64), new Rectangle(0,0,64,64), 3, 3f);
+            player = new Player(sprites.PlayerSprite, new Rectangle(100, 100, 64, 64), new Rectangle(0,0,64,64), 3, 3f);
         }
 
         protected override void Update(GameTime gameTime)
