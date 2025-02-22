@@ -85,9 +85,23 @@ namespace BrickHack11
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
 
+            switch (_gameState)
+            {
+                case GameState.MainMenu:
+                    mainMenu.Draw(_spriteBatch);
+                    break;
+                case GameState.Playing:
+                    player.Draw(_spriteBatch);
+                    break;
+                case GameState.Paused:
+                    break;
+                case GameState.GameOver:
+                    break;
+                case GameState.Victory:
+                    break;
+            }
+
             // TODO: Add your drawing code here
-            player.Draw(_spriteBatch);
-            mainMenu.Draw(_spriteBatch);
 
             _spriteBatch.End();
             base.Draw(gameTime);
