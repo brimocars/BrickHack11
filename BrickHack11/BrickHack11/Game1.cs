@@ -156,7 +156,7 @@ namespace BrickHack11
             }
 
             // TODO: Add your drawing code here
-            player.Draw(_spriteBatch);
+            _player.Draw(_spriteBatch);
             mainMenu.Draw(_spriteBatch);
 
             _spriteBatch.End();
