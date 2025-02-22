@@ -113,7 +113,7 @@ namespace BrickHack11
                     if(state.IsKeyDown(Keys.Space) && _player._canParry)
                     {
                         // PARRY!!!
-                        //_player._bulletToParry.;
+                        _player._bulletToParry.Velocity = new Vector2(-_player._bulletToParry.Velocity.X, -_player._bulletToParry.Velocity.Y);
                     }
 
                     _previousGameState = GameState.Playing;
