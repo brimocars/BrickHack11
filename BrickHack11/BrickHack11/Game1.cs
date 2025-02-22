@@ -95,7 +95,7 @@ namespace BrickHack11
                         // Check collision:
                         if (_player._parryBound.Intersects(bullet.Position))
                         {
-                            _player.setParry(true);
+                            //_player.setParry(true);
                         }
                     }
                     

@@ -10,8 +10,8 @@ using SharpDX.XInput;
 public class MainMenu 
 {
         private Texture2D _bgTexture;
-        private Texture2D _playButton;
-        private Texture2D _exitButton;
+        private Texture2D _playButtonTexture;
+        private Texture2D _quitButtonTexture;
         private Vector2 playPosition;
         private Vector2 exitPosition;
         private Rectangle playButton;
@@ -26,27 +26,26 @@ public class MainMenu
         public MainMenu(Texture2D bgTexture, Texture2D playButton, Texture2D quitButton)  
         {
             _bgTexture = bgTexture;
-            _playButton = playButton;
-            _exitButton = quitButton;
+            _playButtonTexture = playButton;
+            _quitButtonTexture = quitButton;
+            this.playButton = new Rectangle(bgTexture.Width / 2 + 200, bgTexture.Height/2, _playButtonTexture.Width, _playButtonTexture.Height);
+            this.quitButton = new Rectangle(bgTexture.Width / 2 + 200, bgTexture.Height/2 + 200, _quitButtonTexture.Width, _quitButtonTexture.Height);
         }
 
         public void Draw(SpriteBatch sb){
-            playButton.X = _bgTexture.Width / 2 + 200;
-            playButton.Y = _bgTexture.Height / 2;
-            quitButton.X = _bgTexture.Width / 2 + 200;
-            quitButton.Y = _bgTexture.Height / 2 + 200;
-            playPosition = new Vector2(playButton.X, playButton.Y);
-            exitPosition = new Vector2(quitButton.X, quitButton.Y);
+           
+            //playPosition = new Vector2(playButton.X, playButton.Y);
+            //exitPosition = new Vector2(quitButton.X, quitButton.Y);
             sb.Draw(_bgTexture, new Rectangle(0,0, Constants.ScreenWidth, Constants.ScreenHeight), Color.White);
-            sb.Draw(_playButton, playPosition, Color.White);
-            sb.Draw(_exitButton, exitPosition, Color.White);
+            sb.Draw(_playButtonTexture, playButton, Color.White);
+            sb.Draw(_quitButtonTexture, quitButton, Color.White);
         }   
 
         public void Update()
         {
             MouseState ms = Mouse.GetState();
             if (ms.LeftButton == ButtonState.Released){
-                Rectangle mouseRectangle = new Rectangle(ms.X, ms.Y, 0,0);
+                Rectangle mouseRectangle = new Rectangle(ms.X, ms.Y, 1,1);
                 if(mouseRectangle.Intersects(playButton)){
                     playClick = true;
                 }
