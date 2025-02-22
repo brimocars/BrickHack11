@@ -30,7 +30,6 @@ namespace BrickHack11
         private List<Bullet> _bullets;
         
         MainMenu mainMenu;
-        
 
         public Game1()
         {
@@ -54,7 +53,6 @@ namespace BrickHack11
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
             sprites = new SpriteManager(this.Content);
 
             var startingPosition = new Vector2(100, 100);
@@ -77,70 +75,82 @@ namespace BrickHack11
             {
                 case GameState.MainMenu:
                     mainMenu.Update();
-                    if(mainMenu.playClick == true){
+                    if(mainMenu.playClick)
+                    {
                         _gameState = GameState.Playing;
                     }
-                    else if (mainMenu.quitClick == true){
+                    else if (mainMenu.quitClick)
+                    {
                         Exit();
                     }
-                    
                     _previousGameState = GameState.MainMenu;
-					break;
+                    break;
                 
-                
-				case GameState.Playing:
+                case GameState.Playing:
                     if (_previousGameState == GameState.MainMenu)
                     {
-                        var enemy = new Enemy(
+                        var patterns = new List<IBulletPattern>
+                        {
+                            new CirclePattern(10, 100),
+                            new CirclePattern(20, 200)
+                        };
+                        
+                        _enemy = new Enemy(
                             sprites.PlayerSprite,
-                            new Vector2(300, 300),
+                            new Vector2(480, 100),
                             new Rectangle(300, 300, sprites.PlayerSprite.Width - 30, sprites.PlayerSprite.Height - 30),
                             new Rectangle(0, 0, sprites.PlayerSprite.Width, sprites.PlayerSprite.Height),
                             3,
-                            400);
-
-                        _enemy = enemy;
+                            200,
+                            patterns);
                     }
 
+                    // Update Bullets
                     foreach (var bullet in _bullets)
                     {
                         bullet.Update(gameTime);
+                        
                         // Check collision:
                         if (_player._parryBound.Intersects(bullet.Hitbox))
                         {
                             _player.setParry(true, bullet);
                         }
                     }
-                    
+
+                    // Update Enemy
                     _enemy.Update(gameTime);
+
+                    // Handle new bullets from enemy
+                    List<Bullet> newBullets = _enemy.SpawnBullets();
+                    _bullets.AddRange(newBullets);
                     
+                    // Update Player
                     _player.Update();
+
                     // Check for parry:
                     KeyboardState state = Keyboard.GetState();
-                    if(state.IsKeyDown(Keys.Space) && _player._canParry)
+                    if (state.IsKeyDown(Keys.Space) && _player._canParry)
                     {
                         // PARRY!!!
                         _player._bulletToParry.Velocity = new Vector2(-_player._bulletToParry.Velocity.X, -_player._bulletToParry.Velocity.Y);
                     }
 
                     _previousGameState = GameState.Playing;
-					break;
+                    break;
                 
-                
-				case GameState.Paused:
+                case GameState.Paused:
                     _previousGameState = GameState.Paused;
-					break;
+                    break;
                 
-                
-				case GameState.GameOver:
+                case GameState.GameOver:
                     _previousGameState = GameState.GameOver;
-					break;
+                    break;
                 
-                
-				case GameState.Victory:
+                case GameState.Victory:
                     _previousGameState = GameState.Victory;
-					break;
+                    break;
             }
+
             base.Update(gameTime);
         }
 
@@ -155,7 +165,6 @@ namespace BrickHack11
                     mainMenu.Draw(_spriteBatch);
                     break;
                 
-                
                 case GameState.Playing:
                     _player?.Draw(_spriteBatch);
                     _enemy?.Draw(_spriteBatch);
@@ -166,25 +175,18 @@ namespace BrickHack11
                     }
                     break;
                 
-                
                 case GameState.Paused:
                     break;
                 
-                
                 case GameState.GameOver:
                     break;
-                
                 
                 case GameState.Victory:
                     break;
             }
 
-            // TODO: Add your drawing code here
-
             _spriteBatch.End();
             base.Draw(gameTime);
         }
     }
-
-    
 }

@@ -1,94 +1,95 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using BrickHack11.Patterns;
 
-namespace BrickHack11;
-
-public class Enemy : GameObject
+namespace BrickHack11
 {
-    private bool _isAlive;
-    private int _health;
-    private float _speed;
-    private int _direction; // 1 = right, -1 = left
-    private float _attackCooldown;
-    private float _timeSinceLastAttack;
-    private List<Bullet> _bullets;
-
-    private float _leftBound;
-    private float _rightBound;
-
-    public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, int health, float speed) 
-        : base(spriteSheet, position, hitbox, spriteFrame)
+    public class Enemy : GameObject
     {
-        _isAlive = true;
-        _health = health;
-        _speed = speed;
-        _direction = 1; // Start moving right
-        _bullets = new List<Bullet>();
-        _attackCooldown = 3.0f;
-        _timeSinceLastAttack = 0;
+        private bool _isAlive;
+        private int _health;
+        private float _speed;
+        private int _direction; // 1 = right, -1 = left
+        private float _attackCooldown;
+        private float _timeSinceLastAttack;
+        private List<IBulletPattern> _patterns;
+        private float _leftBound;
+        private float _rightBound;
+        private Random _random;
 
-        _leftBound = 100;
-        _rightBound = 900;
-    }
-
-    public void Update(GameTime gameTime)
-    {
-        if (!_isAlive) return;
-
-        // Move left or right
-        Position = new Vector2(Position.X + _direction * _speed * (float)gameTime.ElapsedGameTime.TotalSeconds, Position.Y);
-
-        // Reverse direction at bounds
-        if (Position.X <= _leftBound)
+        public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, 
+            Rectangle spriteFrame, int health, float speed, List<IBulletPattern> patterns) 
+            : base(spriteSheet, position, hitbox, spriteFrame)
         {
-            Position = new Vector2(_leftBound, Position.Y);
-            _direction = 1; // Move right
-        }
-        else if (Position.X >= _rightBound)
-        {
-            Position = new Vector2(_rightBound, Position.Y);
-            _direction = -1; // Move left
-        }
-
-        // Attack logic
-        _timeSinceLastAttack += (float)gameTime.ElapsedGameTime.TotalSeconds;
-        if (_timeSinceLastAttack >= _attackCooldown)
-        {
-            SpawnPattern();
+            _isAlive = true;
+            _health = health;
+            _speed = speed;
+            _direction = 1; // Start moving right
+            _attackCooldown = 3.0f;
             _timeSinceLastAttack = 0;
+            _leftBound = 60;
+            _rightBound = 860;
+            _patterns = patterns;
+            _random = new Random();
         }
 
-        // Update bullets
-        foreach (var bullet in _bullets)
+        public void Update(GameTime gameTime)
         {
-            bullet.Update(gameTime);
+            if (!_isAlive) return;
+
+            // Move left or right
+            Position = new Vector2(Position.X + _direction * _speed * (float)gameTime.ElapsedGameTime.TotalSeconds, Position.Y);
+
+            // Reverse direction at bounds
+            if (Position.X <= _leftBound)
+            {
+                Position = new Vector2(_leftBound, Position.Y);
+                _direction = 1; // Move right
+            }
+            else if (Position.X >= _rightBound)
+            {
+                Position = new Vector2(_rightBound, Position.Y);
+                _direction = -1; // Move left
+            }
+
+            // Update attack cooldown
+            _timeSinceLastAttack += (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
-    }
 
-    private void SpawnPattern()
-    {
-        return;
-    }
-
-    public void TakeDamage()
-    {
-        _health--;
-        if (_health <= 0)
+        public List<Bullet> SpawnBullets()
         {
-            _isAlive = false;
+            List<Bullet> newBullets = new List<Bullet>();
+
+            if (_isAlive && _timeSinceLastAttack >= _attackCooldown)
+            {
+                if (_patterns.Count > 0)
+                {
+                    int index = _random.Next(_patterns.Count);
+                    _patterns[index].Spawn(Position, SpriteSheet, new Rectangle(0, 0, 10, 10), newBullets);
+                }
+
+                _timeSinceLastAttack = 0;
+            }
+
+            return newBullets;
         }
-    }
 
-    public void Draw(SpriteBatch spriteBatch)
-    {
-        if (!_isAlive) return;
-
-        spriteBatch.Draw(SpriteSheet, Position, SpriteFrame, Color.White);
-
-        foreach (var bullet in _bullets)
+        public void TakeDamage()
         {
-            bullet.Draw(spriteBatch);
+            _health--;
+            if (_health <= 0)
+            {
+                _isAlive = false;
+            }
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (!_isAlive) return;
+
+            spriteBatch.Draw(SpriteSheet, Position, SpriteFrame, Color.White);
         }
     }
 }
