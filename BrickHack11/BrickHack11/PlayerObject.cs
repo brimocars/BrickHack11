@@ -1,31 +1,52 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SharpDX.Direct3D9;
 
 namespace BrickHack11 
 {
     class PlayerObject : GameObject
     {
-      private float speed = 3f;
-        public PlayerObject(Texture2D spriteSheet, Rectangle position, Rectangle spriteFrame) : base(spriteSheet, position, spriteFrame)
+      private bool _isAlive;
+      private int _health;
+      private float _speed = 3f;
+        public PlayerObject(Texture2D spriteSheet, Rectangle position, Rectangle spriteFrame, int health, float speed) : base(spriteSheet, position, spriteFrame)
         {
         }
 
         public void Update()
         {
+          if (!_isAlive)
+          {
+            // game over state
+          }
           KeyboardState state = Keyboard.GetState();
           Rectangle newPos = Position;
 
           if(state.IsKeyDown(Keys.W))
-            newPos.Y -= (int)speed;
+            newPos.Y -= (int)_speed;
           if(state.IsKeyDown(Keys.A))
-            newPos.X -= (int)speed;
+            newPos.X -= (int)_speed;
           if(state.IsKeyDown(Keys.S))
-            newPos.Y += (int)speed;
+            newPos.Y += (int)_speed;
           if(state.IsKeyDown(Keys.D))
-            newPos.X += (int)speed;
+            newPos.X += (int)_speed;
 
           Position = newPos;
+        }
+
+        public void TakeDamage()
+        {
+          _health--;
+          if (_health <= 0)
+          {
+            _isAlive = false;
+          }
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+          spriteBatch.Draw(SpriteSheet, Position, SpriteFrame, Color.Green);
         }
     }
 
