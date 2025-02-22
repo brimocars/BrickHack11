@@ -9,6 +9,7 @@ public class StreamPattern : IBulletPattern
     private int _numBullets;
     private float _bulletSpeed;
     private float _offset;
+    public float Cost { get; set; }
 
     public StreamPattern(int numBullets, float bulletSpeed, float offset)
     {
@@ -31,7 +32,7 @@ public class StreamPattern : IBulletPattern
             Bullet bullet = new Bullet(
                 bulletTexture,
                 bulletPosition,
-                new Rectangle((int)bulletPosition.X, (int)bulletPosition.Y, 10, 10),
+                new Rectangle((int)bulletPosition.X, (int)bulletPosition.Y, 15, 15),
                 bulletFrame,
                 velocity,
                 new Vector2(0, 0)
