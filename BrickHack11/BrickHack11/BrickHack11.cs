@@ -22,7 +22,7 @@ namespace BrickHack11
         private SpriteBatch _spriteBatch;
         private PlayerObject player;
 
-        public Game1()
+        public BrickHack11()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";

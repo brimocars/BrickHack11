@@ -1,3 +1,3 @@
 ﻿
-using var game = new BrickHack11.Game1();
+using var game = new BrickHack11.BrickHack11();
 game.Run();
