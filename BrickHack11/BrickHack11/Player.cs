@@ -8,6 +8,7 @@ namespace BrickHack11
 {
     class Player : GameObject
     {
+        private bool isGodMode = true;
         private bool _isAlive;
         private int _health;
         private float _speed = 3f;
@@ -25,7 +26,7 @@ namespace BrickHack11
             _canParry = false;
 
             // Create parry bounds based on player frame:
-            _parryBound = new Rectangle((int)Position.X, (int)Position.Y - Hitbox.Height/2, Hitbox.Width, Hitbox.Height/2);
+            _parryBound = new Rectangle((int)Position.X, (int)Position.Y - Hitbox.Height / 2, Hitbox.Width, Hitbox.Height / 2);
         }
 
         public void Update()
@@ -50,11 +51,12 @@ namespace BrickHack11
             Position = newPos;
 
             // Update parry box:
-            _parryBound = new Rectangle((int)Position.X, (int)Position.Y - Hitbox.Height/2, Hitbox.Width, Hitbox.Height/2);
+            _parryBound = new Rectangle((int)Position.X, (int)Position.Y - Hitbox.Height / 2, Hitbox.Width, Hitbox.Height / 2);
         }
 
         public void TakeDamage()
         {
+            if (isGodMode) return;
             _health--;
             if (_health <= 0)
             {
@@ -65,6 +67,7 @@ namespace BrickHack11
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(SpriteSheet, Hitbox, SpriteFrame, Color.Green);
+            spriteBatch.Draw(SpriteSheet, _parryBound, SpriteFrame, Color.Orange);
         }
     }
 
