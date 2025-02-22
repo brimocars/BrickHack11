@@ -8,14 +8,16 @@ namespace BrickHack11
 {
     class Player : GameObject
     {
-        private bool isGodMode = true;
+        private bool isGodMode = false;
         private bool _isAlive;
         private int _health;
         private float _speed = 3f;
         public bool _canParry;
         public Rectangle _parryBound;
+        private int currentIFrames = 0;
 
         public bool IsAlive { get { return _isAlive; } private set { _isAlive = value; } }
+        public bool IsInvulnerable { get { return currentIFrames > 0; } }
 
         public Player(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, int health, float speed) :
           base(spriteSheet, position, hitbox, spriteFrame)
@@ -31,6 +33,7 @@ namespace BrickHack11
 
         public void Update()
         {
+            currentIFrames--;
             if (!_isAlive)
             {
                 // game over state
@@ -62,6 +65,7 @@ namespace BrickHack11
             {
                 _isAlive = false;
             }
+            currentIFrames = Constants.iFrames;
         }
 
         public void Draw(SpriteBatch spriteBatch)
