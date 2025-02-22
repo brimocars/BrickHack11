@@ -25,7 +25,7 @@ namespace BrickHack11
             _canParry = false;
 
             // Create parry bounds based on player frame:
-            _parryBound = new Rectangle((int)position.X + Hitbox.Width, (int)position.Y, Hitbox.Width / 2, Hitbox.Height);
+            _parryBound = new Rectangle((int)Position.X, (int)Position.Y - Hitbox.Height/2, Hitbox.Width, Hitbox.Height/2);
         }
 
         public void Update()
@@ -50,7 +50,7 @@ namespace BrickHack11
             Position = newPos;
 
             // Update parry box:
-            _parryBound = new Rectangle((int)Position.X + Hitbox.Width, (int)Position.Y, Hitbox.Width / 2, Hitbox.Height);
+            _parryBound = new Rectangle((int)Position.X, (int)Position.Y - Hitbox.Height/2, Hitbox.Width, Hitbox.Height/2);
         }
 
         public void TakeDamage()
@@ -65,6 +65,7 @@ namespace BrickHack11
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(SpriteSheet, Position, SpriteFrame, Color.Green);
+            //spriteBatch.Draw(SpriteSheet, _parryBound, SpriteFrame, Color.Orange);
         }
     }
 
