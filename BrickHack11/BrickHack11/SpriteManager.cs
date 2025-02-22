@@ -13,7 +13,7 @@ namespace BrickHack11
         public SpriteManager(ContentManager content)
         {
             playerSprite = content.Load<Texture2D>("ball");
-            mainMenuTexture = content.Load<Texture2D>("");
+            mainMenuTexture = content.Load<Texture2D>("bgImage");
         }
     }
 
