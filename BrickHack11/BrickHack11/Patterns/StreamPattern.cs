@@ -11,11 +11,12 @@ public class StreamPattern : IBulletPattern
     private float _offset;
     public float Cost { get; set; }
 
-    public StreamPattern(int numBullets, float bulletSpeed, float offset)
+    public StreamPattern(int numBullets, float bulletSpeed, float offset, float cost)
     {
         _numBullets = numBullets;
         _bulletSpeed = bulletSpeed;
         _offset = offset;
+        Cost = cost;
     }
 
     public void Spawn(Vector2 origin, Texture2D bulletTexture, Rectangle bulletFrame, List<Bullet> bulletList)

@@ -11,6 +11,7 @@ namespace BrickHack11
     {
         MainMenu,
         Playing,
+        HitStop,
         Paused,
         GameOver,
         Victory
@@ -26,6 +27,7 @@ namespace BrickHack11
         private SpriteBatch _spriteBatch;
         private Player _player;
         private Enemy _enemy;
+        private int hitStopTimer;
 
         private List<Bullet> _bullets;
 
@@ -91,9 +93,9 @@ namespace BrickHack11
                     {
                         var patterns = new List<IBulletPattern>
                         {
-                            new CirclePattern(30, 300, 10f),
+                            new CirclePattern(30, 300, 9f),
                             new CirclePattern(10, 750, 8.5f),
-                            // new StreamPattern(30, 700, 100, 1f)
+                            new StreamPattern(30, 700, 100, 8.5f)
                         };
 
                         _enemy = new Enemy(
@@ -122,18 +124,18 @@ namespace BrickHack11
                         if (_player.Hitbox.Intersects(bullet.Hitbox))
                         {
                             _bullets.RemoveAt(i);
+                            _gameState = GameState.HitStop;
+                            hitStopTimer = 0;
                             i--;
-                            // _player.TakeDamage();
-                        }
-                        else if (_player._parryBound.Intersects(bullet.Hitbox))
-                        {
-                            // _player.setParry(true, bullet);
+                            _player.TakeDamage();
                         }
                     }
 
                     if (_enemy.Hitbox.Intersects(_player.Hitbox))
                     {
-                        // _player.TakeDamage();
+                        _gameState = GameState.HitStop;
+                        hitStopTimer = 0;
+                        _player.TakeDamage();
                     }
 
                     // Handle new bullets from enemy
@@ -144,13 +146,25 @@ namespace BrickHack11
                     KeyboardState state = Keyboard.GetState();
                     if (state.IsKeyDown(Keys.Space))
                     {
+                        // Check parry for bullets:
                         foreach (var bullet in _bullets)
                         {
                             // Check collision:
                             if (_player._parryBound.Intersects(bullet.Hitbox))
                             {
+                                _gameState = GameState.HitStop;
+                                hitStopTimer = 0;
                                 bullet.Velocity = new Vector2(-bullet.Velocity.X, -bullet.Velocity.Y);
                             }
+                        }
+
+                        // Check for a melee attack:
+                        if (_player._parryBound.Intersects(_enemy.Hitbox))
+                        {
+                            // Run a melee animation?
+                            _gameState = GameState.HitStop;
+                            hitStopTimer = 0;
+                            _enemy.TakeDamage();
                         }
                     }
 
@@ -160,7 +174,13 @@ namespace BrickHack11
                     }
                     _previousGameState = GameState.Playing;
                     break;
-                
+                case GameState.HitStop:
+                    hitStopTimer++;
+                    if (hitStopTimer >= Constants.hitStopDelay)
+                    {
+                        _gameState = GameState.Playing;
+                    }
+                    break;
                 case GameState.Paused:
                     _previousGameState = GameState.Paused;
                     break;
@@ -198,7 +218,15 @@ namespace BrickHack11
                         bullet.Draw(_spriteBatch);
                     }
                     break;
-                
+                case GameState.HitStop:
+                    _player?.Draw(_spriteBatch);
+                    _enemy?.Draw(_spriteBatch);
+
+                    foreach (Bullet bullet in _bullets)
+                    {
+                        bullet.Draw(_spriteBatch);
+                    }
+                    break;
                 case GameState.Paused:
                     break;
 
