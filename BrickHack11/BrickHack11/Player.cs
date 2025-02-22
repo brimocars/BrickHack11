@@ -12,6 +12,9 @@ namespace BrickHack11
       private float _speed = 3f;
         public Player(Texture2D spriteSheet, Rectangle position, Rectangle spriteFrame, int health, float speed) : base(spriteSheet, position, spriteFrame)
         {
+          _isAlive = true;
+          _health = health;
+          _speed = speed;
         }
 
         public void Update()
