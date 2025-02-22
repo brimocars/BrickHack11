@@ -56,7 +56,7 @@ namespace BrickHack11
 
             sprites = new SpriteManager(this.Content);
             _player = new Player(sprites.PlayerSprite, new Rectangle(100, 100, 64, 64), new Rectangle(0,0,64,64), 3, 3f);
-            mainMenu = new MainMenu(sprites.MainMenuTexture);
+            mainMenu = new MainMenu(sprites.MainMenuTexture, sprites.PlayButtonTexture, sprites.ExitButtonTexture);
         }
 
         protected override void Update(GameTime gameTime)
@@ -93,6 +93,11 @@ namespace BrickHack11
                     foreach (var bullet in _bullets)
                     {
                         bullet.Update(gameTime);
+                        // Check collision:
+                        if (_player._parryBound.Intersects(bullet.Position))
+                        {
+                            _player.setParry(true);
+                        }
                     }
                     
                     _player.Update();
@@ -151,6 +156,8 @@ namespace BrickHack11
             }
 
             // TODO: Add your drawing code here
+            _player.Draw(_spriteBatch);
+            mainMenu.Draw(_spriteBatch);
 
             _spriteBatch.End();
             base.Draw(gameTime);
