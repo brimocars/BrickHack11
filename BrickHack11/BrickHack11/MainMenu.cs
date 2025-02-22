@@ -8,18 +8,25 @@ using SharpDX.XInput;
 
 public class MainMenu 
 {
-        private Texture2D menuBackgroud;
-        Rectangle playButton;
+        private Texture2D _texture;
+        private Vector2 _position;
+        private Rectangle playButton;
         //Rectangle settingButton;
-        Rectangle quitButton;
+        private Rectangle quitButton;
+        private SpriteBatch spriteBatch;
+
 
         public bool playClick = false;
         public bool quitClick = false;
 
-        public MainMenu()  
+        public MainMenu(Texture2D texture)  
         {
-
+            _texture = texture;
         }
+
+        public void Draw(SpriteBatch sb){
+           sb.Draw(_texture, new Rectangle(0,0, Constants.ScreenWidth, Constants.ScreenHeight), Color.White);
+        }   
 
         public void Update()
         {
@@ -34,4 +41,5 @@ public class MainMenu
                 }
             }
         }
+        
     }
