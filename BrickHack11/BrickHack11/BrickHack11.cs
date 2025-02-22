@@ -54,7 +54,9 @@ namespace BrickHack11
             {
                 case GameState.MainMenu:
 					break;
-				case GameState.Playing:
+				//case GameState.Playing:
+                default:
+                    player.Update();
 					break;
 				case GameState.Paused:
 					break;
@@ -64,15 +66,19 @@ namespace BrickHack11
 					break;
             }
 
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
 
             // TODO: Add your drawing code here
+            player.Draw(_spriteBatch);
 
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
     }
