@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -18,5 +19,13 @@ public class CirclePattern : IBulletPattern
     public void Spawn(Vector2 origin, Texture2D bulletTexture, List<Bullet> bulletList)
     {
         float angleStep = MathHelper.TwoPi / _numBullets;
+        for (int i = 0; i < _numBullets; i++)
+        {
+            // float angle = i * angleStep;
+            // Vector2 velocity = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * _bulletSpeed;
+            // Bullet bullet = new Bullet(bulletTexture, 
+            //     new Rectangle((int)origin.X, (int)origin.Y, 10, 10), velocity);
+            // bulletList.Add(bullet);
+        }
     }
 }

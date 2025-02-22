@@ -18,13 +18,11 @@ namespace BrickHack11
         }
 
 
-        public Bullet(Texture2D spriteSheet, Rectangle position, Rectangle spriteFrame, Vector2 velocity, Vector2 acceleration, int screenWidth, int screenHeight)
+        public Bullet(Texture2D spriteSheet, Rectangle position, Rectangle spriteFrame, Vector2 velocity, Vector2 acceleration)
             : base(spriteSheet, position, spriteFrame)
         {
             this.velocity = velocity;
             this.acceleration = acceleration;
-            this.screenWidth = screenWidth;
-            this.screenHeight = screenHeight;
         }
 
         public void Update(List<Bullet> projectileList)

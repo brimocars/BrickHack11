@@ -2,8 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-
-
 namespace BrickHack11
 {
     enum GameState
@@ -23,6 +21,7 @@ namespace BrickHack11
         
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Player player;
         
         MainMenu mainMenu;
         
@@ -46,6 +45,9 @@ namespace BrickHack11
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             sprites = new SpriteManager(this.Content);
+            // TODO: use this.Content to load your game content here
+            // Load Player:
+            player = new Player(ballTexture, new Rectangle(100, 100, 64, 64), new Rectangle(0,0,64,64), 3, 3f);
         }
 
         protected override void Update(GameTime gameTime)
@@ -64,7 +66,9 @@ namespace BrickHack11
                         Exit();
                     }
 					break;
-				case GameState.Playing:
+				//case GameState.Playing:
+                default :
+                    player.Update();
 					break;
 				case GameState.Paused:
 					break;
@@ -80,9 +84,12 @@ namespace BrickHack11
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
 
             // TODO: Add your drawing code here
+            player.Draw(_spriteBatch);
 
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
     }
