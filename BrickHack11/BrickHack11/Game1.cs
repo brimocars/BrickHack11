@@ -18,6 +18,7 @@ namespace BrickHack11
     public class Game1 : Game
     {
         private GameState _gameState;
+        private SpriteManager sprites;
         private Texture2D ballTexture;
         
         private GraphicsDeviceManager _graphics;
@@ -44,7 +45,7 @@ namespace BrickHack11
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            sprites = new SpriteManager(this.Content);
         }
 
         protected override void Update(GameTime gameTime)
