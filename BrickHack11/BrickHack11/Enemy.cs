@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace BrickHack11;
 
@@ -8,7 +9,7 @@ public class Enemy : GameObject
     private bool _isAlive; // did the player win? am i spawned in?
     private int _health;
     private float _speed;
-    // private List<Bullet> bullets; // commented until briguy adds bullets
+    private List<Bullet> _bullets; // commented until briguy adds bullets
     private float _attackCooldown; // how long between attacks?
     private float _timeSinceLastAttack; // how long until i can spawn another bullet pattern?
     
@@ -18,7 +19,7 @@ public class Enemy : GameObject
         _isAlive = true;
         _health = health;
         _speed = speed;
-        // _bullets = new List<Bullet>();
+        _bullets = new List<Bullet>();
         _attackCooldown = 3.0f; // every three seconds spawn a pattern
         _timeSinceLastAttack = 0;
     }
@@ -38,9 +39,9 @@ public class Enemy : GameObject
             _timeSinceLastAttack = 0;
         }
 
-        // // Update bullets
-        // foreach (var bullet in _bullets)
-        //     bullet.Update(gameTime);
+        // Update bullets
+        foreach (var bullet in _bullets)
+            bullet.Update(gameTime);
     }
 
     private void SpawnPattern()
@@ -64,9 +65,9 @@ public class Enemy : GameObject
             spriteBatch.Draw(SpriteSheet, Position, SpriteFrame, Color.Red);
         }
 
-        // foreach (var bullet in _bullets)
-        // {
-        //     bullet.Draw(spriteBatch);
-        // }
+        foreach (var bullet in _bullets)
+        {
+            bullet.Draw(spriteBatch);
+        }
     }
 }
