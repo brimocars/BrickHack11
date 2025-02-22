@@ -13,7 +13,7 @@ namespace BrickHack11
         Victory
     }
     
-    public class Game1 : Game
+    public class BrickHack11 : Game
     {
         private GameState _gameState;
         private Texture2D ballTexture;
