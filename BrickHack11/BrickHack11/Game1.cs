@@ -136,7 +136,7 @@ namespace BrickHack11
                     }
 
                     // Handle new bullets from enemy
-                    List<Bullet> newBullets = _enemy.SpawnBullets();
+                    List<Bullet> newBullets = _enemy.TrySpawnRandomPattern();
                     _bullets.AddRange(newBullets);
 
                     // Check for parry:
