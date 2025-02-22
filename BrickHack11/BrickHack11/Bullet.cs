@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct3D9;
-using System;
 using System.Collections.Generic;
 
 namespace BrickHack11
@@ -42,9 +40,12 @@ namespace BrickHack11
         {
             velocity = new Vector2(velocity.X + acceleration.X, velocity.Y + acceleration.Y);
             Position = new Rectangle((int)(Position.X + velocity.X), (int)(Position.Y + velocity.Y), Position.Width, Position.Height);
-            // Checks to see if the bullet has slowed to less than 0.5 pixels/frame
-            if (true)
+            // Check if bullet is off screen
+            if (Position.X > screenWidth || Position.X < 0 || Position.Y > screenHeight || Position.Y < 0)
+            {
+                // bullet is out of bounds
                 return true;
+            }
             return false;
         }
     }
