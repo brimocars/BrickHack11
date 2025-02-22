@@ -8,6 +8,7 @@ namespace BrickHack11
 {
     class Player : GameObject
     {
+        private bool isGodMode = true;
         private bool _isAlive;
         private int _health;
         private float _speed = 3f;
@@ -55,6 +56,7 @@ namespace BrickHack11
 
         public void TakeDamage()
         {
+            if (isGodMode) return;
             _health--;
             if (_health <= 0)
             {
