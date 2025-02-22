@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace BrickHack11
 {
-    class Bullet : GameObject
+    public class Bullet : GameObject
     {
         private Vector2 velocity;
         private Vector2 acceleration;
