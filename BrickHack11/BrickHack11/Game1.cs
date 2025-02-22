@@ -11,7 +11,6 @@ namespace BrickHack11
     {
         MainMenu,
         Playing,
-        HitStop,
         Paused,
         GameOver,
         Victory
@@ -27,7 +26,6 @@ namespace BrickHack11
         private SpriteBatch _spriteBatch;
         private Player _player;
         private Enemy _enemy;
-        private int hitStopTimer;
 
         private List<Bullet> _bullets;
 
@@ -93,8 +91,9 @@ namespace BrickHack11
                     {
                         var patterns = new List<IBulletPattern>
                         {
-                            new CirclePattern(10, 800),
-                            new CirclePattern(20, 800)
+                            new CirclePattern(30, 300, 10f),
+                            new CirclePattern(10, 750, 8.5f),
+                            // new StreamPattern(30, 700, 100, 1f)
                         };
 
                         _enemy = new Enemy(
@@ -124,7 +123,11 @@ namespace BrickHack11
                         {
                             _bullets.RemoveAt(i);
                             i--;
-                            _player.TakeDamage();
+                            // _player.TakeDamage();
+                        }
+                        else if (_player._parryBound.Intersects(bullet.Hitbox))
+                        {
+                            // _player.setParry(true, bullet);
                         }
                     }
 
@@ -146,12 +149,9 @@ namespace BrickHack11
                             // Check collision:
                             if (_player._parryBound.Intersects(bullet.Hitbox))
                             {
-                                _gameState = GameState.HitStop;
-                                hitStopTimer = 0;
                                 bullet.Velocity = new Vector2(-bullet.Velocity.X, -bullet.Velocity.Y);
                             }
                         }
-
                     }
 
                     if (!_player.IsAlive)
@@ -160,13 +160,7 @@ namespace BrickHack11
                     }
                     _previousGameState = GameState.Playing;
                     break;
-                case GameState.HitStop:
-                    hitStopTimer++;
-                    if (hitStopTimer >= Constants.hitStopDelay)
-                    {
-                        _gameState = GameState.Playing;
-                    }
-                    break;
+                
                 case GameState.Paused:
                     _previousGameState = GameState.Paused;
                     break;
@@ -186,7 +180,8 @@ namespace BrickHack11
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, 
+                null, null, null, null);
 
             switch (_gameState)
             {
@@ -203,15 +198,7 @@ namespace BrickHack11
                         bullet.Draw(_spriteBatch);
                     }
                     break;
-                case GameState.HitStop:
-                    _player?.Draw(_spriteBatch);
-                    _enemy?.Draw(_spriteBatch);
-
-                    foreach (Bullet bullet in _bullets)
-                    {
-                        bullet.Draw(_spriteBatch);
-                    }
-                    break;
+                
                 case GameState.Paused:
                     break;
 

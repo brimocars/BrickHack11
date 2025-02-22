@@ -9,11 +9,13 @@ public class CirclePattern : IBulletPattern
 {
     private int _numBullets;
     private float _bulletSpeed;
+    public float Cost { get; set; }
 
-    public CirclePattern(int numBullets, float bulletSpeed)
+    public CirclePattern(int numBullets, float bulletSpeed, float cost)
     {
         _numBullets = numBullets;
         _bulletSpeed = bulletSpeed;
+        Cost = cost;
     }
 
     public void Spawn(Vector2 origin, Texture2D bulletTexture, Rectangle bulletFrame, List<Bullet> bulletList)
@@ -26,7 +28,7 @@ public class CirclePattern : IBulletPattern
             Bullet bullet = new Bullet(
                 bulletTexture,
                 new Vector2((int)origin.X, (int)origin.Y),
-                new Rectangle((int)origin.X, (int)origin.Y, 10, 10),
+                new Rectangle((int)origin.X, (int)origin.Y, 30, 30),
                 bulletFrame,
                 velocity,
                 new Vector2(0, 0));
