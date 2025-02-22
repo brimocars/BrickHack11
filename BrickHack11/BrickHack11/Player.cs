@@ -11,8 +11,8 @@ namespace BrickHack11
       private bool _isAlive;
       private int _health;
       private float _speed = 3f;
-      private bool _canParry;
-      private Bullet _bulletToParry;
+      public bool _canParry;
+      public Bullet _bulletToParry;
       public Rectangle _parryBound;
         public Player(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, int health, float speed) : 
           base(spriteSheet, position, hitbox, spriteFrame)

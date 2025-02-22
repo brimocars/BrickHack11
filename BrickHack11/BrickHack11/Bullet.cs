@@ -6,7 +6,7 @@ namespace BrickHack11
 {
     public class Bullet : GameObject
     {
-        public Vector2 Velocity { get; private set; }
+        public Vector2 Velocity { get; set; }
         public Vector2 Acceleration { get; private set; }
         
         public Bullet(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, Vector2 velocity, Vector2 acceleration)
