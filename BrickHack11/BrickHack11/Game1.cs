@@ -149,11 +149,12 @@ namespace BrickHack11
                         foreach (var bullet in _bullets)
                         {
                             // Check collision:
-                            if (_player._parryBound.Intersects(bullet.Hitbox))
+                            if (_player._parryBound.Intersects(bullet.Hitbox) && _player.canParry())
                             {
                                 _gameState = GameState.HitStop;
                                 hitStopTimer = 0;
                                 bullet.Velocity = new Vector2(-bullet.Velocity.X, -bullet.Velocity.Y);
+                                _player.resetCooldown();
                             }
                         }
 

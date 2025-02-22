@@ -12,7 +12,8 @@ namespace BrickHack11
         private bool _isAlive;
         private int _health;
         private float _speed = 3f;
-        public bool _canParry;
+        public float _parryCooldown = 0f;
+        private float _cooldownDuration = 1f;
         public Rectangle _parryBound;
 
         public bool IsAlive { get { return _isAlive; } private set { _isAlive = value; } }
@@ -23,7 +24,6 @@ namespace BrickHack11
             _isAlive = true;
             _health = health;
             _speed = speed;
-            _canParry = false;
 
             // Create parry bounds based on player frame:
             _parryBound = new Rectangle((int)Position.X, (int)Position.Y - Hitbox.Height / 2, Hitbox.Width, Hitbox.Height / 2);
@@ -52,6 +52,12 @@ namespace BrickHack11
 
             // Update parry box:
             _parryBound = new Rectangle((int)Position.X, (int)Position.Y - Hitbox.Height / 2, Hitbox.Width, Hitbox.Height / 2);
+
+            // Update cooldown:
+            if (!canParry()) 
+            {
+                _parryCooldown -= (1/60);
+            }
         }
 
         public void TakeDamage()
@@ -68,6 +74,16 @@ namespace BrickHack11
         {
             spriteBatch.Draw(SpriteSheet, Hitbox, SpriteFrame, Color.Green);
             spriteBatch.Draw(SpriteSheet, _parryBound, SpriteFrame, Color.Orange);
+        }
+
+        public bool canParry()
+        {
+            return _parryCooldown <= 0;
+        }
+
+        internal void resetCooldown()
+        {
+            _parryCooldown = _cooldownDuration;
         }
     }
 
