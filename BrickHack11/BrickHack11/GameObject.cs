@@ -6,7 +6,8 @@ namespace BrickHack11
     abstract public class GameObject
     {
         private Texture2D spriteSheet;
-        private Rectangle position;
+        private Vector2 position;
+        private Rectangle hitbox;
         private Rectangle spriteFrame;
 
         public Texture2D SpriteSheet
@@ -15,10 +16,16 @@ namespace BrickHack11
             set { spriteSheet = value; }
         }
 
-        public Rectangle Position
+        public Vector2 Position
         {
             get { return position; }
             set { position = value; }
+        }
+
+        public Rectangle Hitbox
+        {
+            get { return hitbox; }
+            set { hitbox = value; }
         }
 
         public Rectangle SpriteFrame
@@ -27,9 +34,10 @@ namespace BrickHack11
             set { spriteFrame = value; }
         }
 
-        public GameObject(Texture2D spriteSheet, Rectangle position, Rectangle spriteFrame)
+        public GameObject(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame)
         {
             this.position = position;
+            this.hitbox = hitbox;
             this.spriteSheet = spriteSheet;
             this.spriteFrame = spriteFrame;
         }

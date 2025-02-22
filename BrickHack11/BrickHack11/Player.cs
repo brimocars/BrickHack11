@@ -14,7 +14,8 @@ namespace BrickHack11
       private bool _canParry;
       private Bullet _bulletToParry;
       public Rectangle _parryBound;
-        public Player(Texture2D spriteSheet, Rectangle position, Rectangle spriteFrame, int health, float speed) : base(spriteSheet, position, spriteFrame)
+        public Player(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, int health, float speed) : 
+          base(spriteSheet, position, hitbox, spriteFrame)
         {
           _isAlive = true;
           _health = health;
@@ -22,7 +23,7 @@ namespace BrickHack11
           _canParry = false;
 
           // Create parry bounds based on player frame:
-          _parryBound = new Rectangle(position.X + position.Width, position.Y, position.Width / 2,  position.Height);
+          _parryBound = new Rectangle((int)position.X + Hitbox.Width, (int)position.Y, Hitbox.Width / 2,  Hitbox.Height);
         }
 
         public void Update()
@@ -32,7 +33,7 @@ namespace BrickHack11
             // game over state
           }
           KeyboardState state = Keyboard.GetState();
-          Rectangle newPos = Position;
+          Vector2 newPos = Position;
 
 
           if(state.IsKeyDown(Keys.W))
@@ -47,12 +48,12 @@ namespace BrickHack11
           Position = newPos;
 
           // Update parry box:
-           _parryBound = new Rectangle(Position.X + Position.Width, Position.Y, Position.Width / 2,  Position.Height);
+           _parryBound = new Rectangle((int)Position.X + Hitbox.Width, (int)Position.Y, Hitbox.Width / 2,  Hitbox.Height);
 
            // Check Parry:
            if(_canParry && state.IsKeyDown(Keys.Space))
            {
-            performParry();
+            // performParry();
            }
         }
 

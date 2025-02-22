@@ -26,6 +26,7 @@ public class StreamPattern : IBulletPattern
             Vector2 bulletPosition = new Vector2(origin.X + offsetX, origin.Y);
             Bullet bullet = new Bullet(
                 bulletTexture,
+                new Vector2((int)origin.X, (int)origin.Y),
                 new Rectangle((int)origin.X, (int)origin.Y, 10, 10),
                 bulletFrame,
                 new Vector2(0,-10),
