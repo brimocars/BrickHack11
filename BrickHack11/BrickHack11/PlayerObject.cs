@@ -10,7 +10,7 @@ namespace BrickHack11
       private bool _isAlive;
       private int _health;
       private float _speed = 3f;
-        public PlayerObject(Texture2D spriteSheet, Rectangle position, Rectangle spriteFrame) : base(spriteSheet, position, spriteFrame)
+        public PlayerObject(Texture2D spriteSheet, Rectangle position, Rectangle spriteFrame, int health, float speed) : base(spriteSheet, position, spriteFrame)
         {
         }
 
