@@ -78,10 +78,12 @@ namespace BrickHack11
                     _gameState = GameState.Playing;
                     _previousGameState = GameState.MainMenu;
 					break;
+                
+                
 				case GameState.Playing:
                     if (_previousGameState == GameState.MainMenu)
                     {
-                        var pattern = new StreamPattern(300, 1.0f, 1.0f);
+                        var pattern = new CirclePattern(300, 1.0f);
                         pattern.Spawn(new Vector2(100, 100), 
                             sprites.PlayerSprite, 
                             new Rectangle(0, 0, 0, 0),
@@ -92,15 +94,22 @@ namespace BrickHack11
                     {
                         bullet.Update(gameTime);
                     }
+                    
                     _player.Update();
                     _previousGameState = GameState.Playing;
 					break;
+                
+                
 				case GameState.Paused:
                     _previousGameState = GameState.Paused;
 					break;
+                
+                
 				case GameState.GameOver:
                     _previousGameState = GameState.GameOver;
 					break;
+                
+                
 				case GameState.Victory:
                     _previousGameState = GameState.Victory;
 					break;
@@ -118,6 +127,8 @@ namespace BrickHack11
                 case GameState.MainMenu:
                     mainMenu.Draw(_spriteBatch);
                     break;
+                
+                
                 case GameState.Playing:
                     _player.Draw(_spriteBatch);
                     foreach (Bullet bullet in _bullets)
@@ -125,10 +136,16 @@ namespace BrickHack11
                         bullet.Draw(_spriteBatch);
                     }
                     break;
+                
+                
                 case GameState.Paused:
                     break;
+                
+                
                 case GameState.GameOver:
                     break;
+                
+                
                 case GameState.Victory:
                     break;
             }
