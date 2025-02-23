@@ -32,7 +32,6 @@ namespace BrickHack11
         private List<Bullet> _enemyBullets;
         private List<Bullet> _parriedBullets;
         private Vector2 startingPosition;
-        private Texture2D uiArea;
 
         MainMenu mainMenu;
         GameOver gameOver;
@@ -82,15 +81,6 @@ namespace BrickHack11
             winScreen = new WinScreen(sprites.WinScreen);
             playingScreen = new PlayingScreen(sprites.PlayingScreen);
 
-            uiArea = new Texture2D(GraphicsDevice, 1, 1);
-            uiArea.SetData(new[] { Color.White });
-        }
-
-        protected override void UnloadContent()
-        {
-            base.UnloadContent();
-            _spriteBatch.Dispose();
-            uiArea.Dispose();
         }
 
         protected override void Update(GameTime gameTime)
@@ -294,7 +284,7 @@ namespace BrickHack11
                     {
                         bullet.Draw(_spriteBatch);
                     }
-                    _spriteBatch.Draw(uiArea, new Rectangle(Constants.ArenaWidth, 0, Constants.ArenaWidth, Constants.ScreenHeight), Color.White);
+                    _spriteBatch.Draw(sprites.UIArea, new Rectangle(0, 0, Constants.ScreenWidth, Constants.ScreenHeight), Color.White);
 
                     for (int i = 0; i < _enemy?.Health; i++)
                     {
@@ -320,7 +310,7 @@ namespace BrickHack11
                     {
                         bullet.Draw(_spriteBatch);
                     }
-                    _spriteBatch.Draw(uiArea, new Rectangle(Constants.ArenaWidth, 0, Constants.ArenaWidth, Constants.ScreenHeight), Color.White);
+                    _spriteBatch.Draw(sprites.UIArea, new Rectangle(Constants.ArenaWidth, 0, Constants.ArenaWidth, Constants.ScreenHeight), Color.White);
 
                     for (int i = 0; i < _enemy?.Health; i++)
                     {

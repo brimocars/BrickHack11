@@ -32,7 +32,7 @@ namespace BrickHack11
         public Texture2D GameOverScreen {get => loseScreen;}
         public Texture2D WinScreen{ get => winScreen;}
         public Texture2D PlayingScreen{ get => playingScreen;}
-        //public Texture2D UiArea{ get => uiArea;}
+        public Texture2D UIArea{ get => uiArea;}
         public SpriteManager(ContentManager content)
         {
             bulletSprite = content.Load<Texture2D>("ball");
@@ -47,7 +47,7 @@ namespace BrickHack11
             loseScreen = content.Load<Texture2D>("loseScreen");
             winScreen = content.Load<Texture2D>("winScreen");
             playingScreen = content.Load<Texture2D>("playingScreen");
-            //uiArea = content.Load<Texture2D>("uiArea");
+            uiArea = content.Load<Texture2D>("uiArea");
         }
     }
 
