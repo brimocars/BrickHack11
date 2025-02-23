@@ -187,7 +187,7 @@ namespace BrickHack11
                         {
                             _parriedBullets.RemoveAt(i);
                             i--;
-                            //_enemy.DamageShieldOrWhatever();
+                            _enemy.DamageShield();
                         }
                     }
 
