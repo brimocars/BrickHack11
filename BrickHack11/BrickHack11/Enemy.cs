@@ -59,8 +59,8 @@ namespace BrickHack11
 
             // Move left or right
             Position = new Vector2(Position.X + _direction * _speed * (float)gameTime.ElapsedGameTime.TotalSeconds, Position.Y);
-            //_shieldBox.X = (int)Position.X;
-            //_shieldBox.Y = (int)Position.Y;
+            _shieldBox.X = (int)Position.X;
+            _shieldBox.Y = (int)Position.Y;
 
             // Reverse direction at bounds
             if (Position.X <= _leftBound)
