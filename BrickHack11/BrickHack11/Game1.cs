@@ -169,10 +169,9 @@ namespace BrickHack11
                                 removedBullet.IsParried = true;
                                 removedBullet.enemy = _enemy;
                                 _parriedBullets.Add(removedBullet);
-                                _player.resetCooldown();
                             }
                         }
-                        // Missed parry:
+                        // Reset parry:
                         _player.resetCooldown();
 
                         // Check for a melee attack:
