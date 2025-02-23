@@ -203,6 +203,7 @@ namespace BrickHack11
                             _gameState = GameState.HitStop;
                             hitStopTimer = 0;
                             _enemy.TakeDamage();
+                            _enemyBullets.Clear();
                             _player.BackToStart(startingPosition.X, startingPosition.Y);
                         }
                     }
