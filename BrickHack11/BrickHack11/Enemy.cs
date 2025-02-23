@@ -109,7 +109,7 @@ namespace BrickHack11
                 }
                 
                 patternToFire.Spawn(Position, _bulletSprite, new Rectangle(0, 0, 10, 10), newBullets);
-                _timeSinceLastAttack += patternToFire.Cost;
+                _timeSinceLastAttack -= patternToFire.Cost;
             }
 
             return newBullets;

@@ -110,10 +110,25 @@ namespace BrickHack11
                     if (_previousGameState == GameState.MainMenu)
                     {
                         var patternGroups = new List<List<IBulletPattern>>
-                        {   new List<IBulletPattern>
+                        {   
+                            // new List<IBulletPattern>
+                            // {
+                            //     new TrackingPattern(1, 650, 9.8f),
+                            //     new CirclePattern(30, 300, 9f),
+                            // },
+                            new List<IBulletPattern>
                             {
-                                new TrackingPattern(1, 650, 9.8f),
-                                new CirclePattern(30, 300, 9f),
+                                new CirclePattern(15, 500, .5f),
+                                new CirclePattern(17, 400, .5f),
+                                new CirclePattern(20, 300, 3f),
+                            },
+                            new List<IBulletPattern>
+                            {
+                                new TrackingPattern(1, 500, .01f),
+                                new TrackingPattern(1, 500, .01f),
+                                new TrackingPattern(1, 500, .01f),
+                                new TrackingPattern(1, 500, .01f),
+                                new TrackingPattern(1, 500, 1f),
                             }
                         };
 
@@ -127,7 +142,7 @@ namespace BrickHack11
                             patternGroups,
                             sprites.BulletSprite,
                             sprites.ShieldSprite,
-                            1f,
+                            2.5f,
                                 .5f
                             );
                     }
@@ -216,7 +231,7 @@ namespace BrickHack11
                             i--;
                             _enemy.DamageShield();
                         }
-                    }
+                    }   
 
 
                     if (!_player.IsAlive)
