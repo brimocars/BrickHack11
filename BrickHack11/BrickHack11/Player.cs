@@ -71,7 +71,7 @@ namespace BrickHack11
             _health--;
             if (_health <= 0)
             {
-                _isAlive = true;
+                _isAlive = false;
             }
             currentIFrames = Constants.iFrames;
         }
