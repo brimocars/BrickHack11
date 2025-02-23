@@ -20,6 +20,7 @@ namespace BrickHack11
         private float _leftBound;
         private float _rightBound;
         private Rectangle _shieldBox;
+        private Rectangle _hitbox;
         private Random _random;
 
         public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, 
@@ -95,6 +96,8 @@ namespace BrickHack11
                 {
                     _isAlive = false;
                 }
+                
+                newShield();
             }
         }
 
@@ -106,6 +109,13 @@ namespace BrickHack11
                 _hasShield = false;
                 _shieldBox = new Rectangle(0, 0, 0, 0);
             }
+        }
+
+        private void newShield()
+        {
+            _hasShield = false;
+            _shield = 3;
+            _shieldBox = new Rectangle(_hitbox.X - 10, _hitbox.Y - 10, _hitbox.Width + 20, _hitbox.Height + 20);
         }
 
         public void Draw(SpriteBatch spriteBatch)
