@@ -53,6 +53,11 @@ namespace BrickHack11
             if (state.IsKeyDown(Keys.D))
                 newPos.X += (int)_speed;
 
+            if (newPos.X < 0) newPos.X = 0;
+            if (newPos.Y < 0) newPos.Y = 0;
+            if (newPos.X + Hitbox.Width > Constants.ArenaWidth) newPos.X = Constants.ArenaWidth - Hitbox.Width;
+            if (newPos.Y + Hitbox.Height > Constants.ScreenHeight) newPos.Y = Constants.ScreenHeight - Hitbox.Height;
+
             Position = newPos;
 
             // Update parry box:

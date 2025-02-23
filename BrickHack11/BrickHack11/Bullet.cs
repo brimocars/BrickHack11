@@ -18,7 +18,7 @@ namespace BrickHack11
             Acceleration = acceleration;
         }
 
-        public void Update(GameTime gameTime)
+        public bool Update(GameTime gameTime)
         {
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -36,6 +36,16 @@ namespace BrickHack11
                 Velocity = new Vector2(Velocity.X + Acceleration.X, Velocity.Y + Acceleration.Y);
             }
             Position = new Vector2((Position.X + Velocity.X * elapsed), (Position.Y + Velocity.Y * elapsed));
+
+            if (Position.X + Hitbox.Width < 0
+                || Position.X > Constants.ArenaWidth
+                || Position.Y + Hitbox.Height < 0
+                || Position.Y > Constants.ScreenHeight
+                )
+            {
+                return true;
+            }
+            return false;
         }
 
         public void Draw(SpriteBatch spriteBatch)
