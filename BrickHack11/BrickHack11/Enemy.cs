@@ -29,12 +29,8 @@ namespace BrickHack11
         private float _timeSinceLastPatternGroup;
 
         public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, 
-<<<<<<< HEAD
-            Rectangle spriteFrame, int health, float speed, List<List<IBulletPattern>> patterns, Texture2D bulletSprite, Texture2D shieldSprite) 
-=======
-            Rectangle spriteFrame, int health, float speed, List<List<IBulletPattern>> patterns, Texture2D bulletSprite,
+            Rectangle spriteFrame, int health, float speed, List<List<IBulletPattern>> patterns, Texture2D bulletSprite, Texture2D shieldSprite,
             float patternGroupCooldown, float attackCooldown) 
->>>>>>> fc0bef9fbb753fc2ffdd7cd184551116e98c2085
             : base(spriteSheet, position, hitbox, spriteFrame)
         {
             _isAlive = true;
