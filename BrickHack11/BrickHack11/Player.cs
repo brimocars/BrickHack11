@@ -69,7 +69,7 @@ namespace BrickHack11
             _health--;
             if (_health <= 0)
             {
-                _isAlive = false;
+                _isAlive = true;
             }
             currentIFrames = Constants.iFrames;
         }
@@ -88,6 +88,12 @@ namespace BrickHack11
         internal void resetCooldown()
         {
             _parryCooldown = _cooldownDuration;
+        }
+
+        public void BackToStart(float startX, float startY)
+        {
+            Vector2 newPos = new Vector2(startX, startY);
+            Position = newPos;
         }
     }
 

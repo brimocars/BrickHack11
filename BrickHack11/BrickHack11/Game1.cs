@@ -31,6 +31,7 @@ namespace BrickHack11
 
         private List<Bullet> _enemyBullets;
         private List<Bullet> _parriedBullets;
+        private Vector2 startingPosition;
 
         MainMenu mainMenu;
 
@@ -59,7 +60,7 @@ namespace BrickHack11
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             sprites = new SpriteManager(this.Content);
 
-            var startingPosition = new Vector2(100, 100);
+            startingPosition = new Vector2(Constants.ScreenWidth/2, Constants.ScreenHeight - (Constants.ScreenHeight / 8));
 
             _player = new Player(
                 sprites.PlayerSprite,
@@ -177,6 +178,7 @@ namespace BrickHack11
                             _gameState = GameState.HitStop;
                             hitStopTimer = 0;
                             _enemy.TakeDamage();
+                            _player.BackToStart(startingPosition.X, startingPosition.Y);
                         }
                     }
 
