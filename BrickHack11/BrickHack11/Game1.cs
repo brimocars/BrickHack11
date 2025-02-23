@@ -35,6 +35,9 @@ namespace BrickHack11
         private Texture2D uiArea;
 
         MainMenu mainMenu;
+        GameOver gameOver;
+        WinScreen winScreen;
+        
 
         public Game1()
         {
@@ -74,6 +77,8 @@ namespace BrickHack11
                 );
 
             mainMenu = new MainMenu(sprites.MainMenuTexture, sprites.PlayButtonTexture, sprites.ExitButtonTexture);
+            gameOver = new GameOver(sprites.GameOverScreen);
+            winScreen = new WinScreen(sprites.WinScreen);
 
             uiArea = new Texture2D(GraphicsDevice, 1, 1);
             uiArea.SetData(new[] { Color.White });
@@ -327,10 +332,11 @@ namespace BrickHack11
                     break;
 
                 case GameState.GameOver:
-                    GraphicsDevice.Clear(Color.Red);
+                    gameOver.Draw(_spriteBatch);
                     break;
 
                 case GameState.Victory:
+                    winScreen.Draw(_spriteBatch);
                     break;
             }
 

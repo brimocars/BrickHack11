@@ -12,8 +12,6 @@ public class MainMenu
     private Texture2D _bgTexture;
     private Texture2D _playButtonTexture;
     private Texture2D _quitButtonTexture;
-    private Vector2 playPosition;
-    private Vector2 exitPosition;
     private Rectangle playButton;
     //Rectangle settingButton;
     private Rectangle quitButton;
