@@ -153,7 +153,6 @@ namespace BrickHack11
                         if (!_player.IsInvulnerable && _player.Hitbox.Intersects(bullet.Hitbox))
                         {
                             _enemyBullets.RemoveAt(i);
-                            _gameState = GameState.HitStop;
                             hitStopTimer = 0;
                             i--;
                             _player.TakeDamage();
@@ -162,7 +161,6 @@ namespace BrickHack11
 
                     if (_enemy.Hitbox.Intersects(_player.Hitbox) && !_player.IsInvulnerable)
                     {
-                        _gameState = GameState.HitStop;
                         hitStopTimer = 0;
 
                         _player.TakeDamage();
@@ -200,8 +198,6 @@ namespace BrickHack11
                         if (_player._parryBound.Intersects(_enemy.Hitbox))
                         {
                             // Run a melee animation?
-                            _gameState = GameState.HitStop;
-                            hitStopTimer = 0;
                             _enemy.TakeDamage();
                             _player.BackToStart(startingPosition.X, startingPosition.Y);
                         }
