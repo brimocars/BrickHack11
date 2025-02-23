@@ -28,16 +28,17 @@ namespace BrickHack11
         private float _timeSinceLastPatternGroup;
 
         public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, 
-            Rectangle spriteFrame, int health, float speed, List<List<IBulletPattern>> patterns, Texture2D bulletSprite) 
+            Rectangle spriteFrame, int health, float speed, List<List<IBulletPattern>> patterns, Texture2D bulletSprite,
+            float patternGroupCooldown, float attackCooldown) 
             : base(spriteSheet, position, hitbox, spriteFrame)
         {
             _isAlive = true;
             _health = health;
             _speed = speed;
             _direction = 1; // Start moving right
-            _attackCooldown = 10f;
+            _attackCooldown = attackCooldown;
             _timeSinceLastAttack = _attackCooldown;
-            _patternGroupCooldown = 5f;
+            _patternGroupCooldown = patternGroupCooldown;
             _timeSinceLastPatternGroup = _patternGroupCooldown;
             _leftBound = 60;
             _rightBound = 860;
