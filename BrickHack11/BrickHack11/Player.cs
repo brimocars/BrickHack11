@@ -78,8 +78,8 @@ namespace BrickHack11
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(SpriteSheet, Hitbox, SpriteFrame, Color.Green);
-            spriteBatch.Draw(_shieldSprite, _parryBound, SpriteFrame, Color.Orange);
+            spriteBatch.Draw(SpriteSheet, Hitbox, SpriteFrame, Color.White);
+            spriteBatch.Draw(_shieldSprite, _parryBound, new Rectangle(0, 0, _shieldSprite.Width, _shieldSprite.Height), Color.Orange);
         }
 
         public bool canParry()

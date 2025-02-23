@@ -64,8 +64,9 @@ namespace BrickHack11
             _player = new Player(
                 sprites.PlayerSprite,
                 new Vector2(startingPosition.X, startingPosition.Y),
-                new Rectangle((int)startingPosition.X, (int)startingPosition.Y, 64, 64),
-                new Rectangle(0, 0, 64, 64), 3, 6.8f,
+                new Rectangle((int)startingPosition.X, (int)startingPosition.Y, 64, 100),
+                new Rectangle(0, 0, sprites.PlayerSprite.Width, sprites.PlayerSprite.Height),
+                3, 6.8f,
                 sprites.ShieldSprite);
 
             mainMenu = new MainMenu(sprites.MainMenuTexture, sprites.PlayButtonTexture, sprites.ExitButtonTexture);
