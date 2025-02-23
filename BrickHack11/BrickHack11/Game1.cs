@@ -37,6 +37,7 @@ namespace BrickHack11
         MainMenu mainMenu;
         GameOver gameOver;
         WinScreen winScreen;
+        PlayingScreen playingScreen;
         
 
         public Game1()
@@ -79,6 +80,7 @@ namespace BrickHack11
             mainMenu = new MainMenu(sprites.MainMenuTexture, sprites.PlayButtonTexture, sprites.ExitButtonTexture);
             gameOver = new GameOver(sprites.GameOverScreen);
             winScreen = new WinScreen(sprites.WinScreen);
+            playingScreen = new PlayingScreen(sprites.PlayingScreen);
 
             uiArea = new Texture2D(GraphicsDevice, 1, 1);
             uiArea.SetData(new[] { Color.White });
@@ -278,8 +280,10 @@ namespace BrickHack11
                     break;
 
                 case GameState.Playing:
+                    playingScreen.Draw(_spriteBatch);
                     _player?.Draw(_spriteBatch);
                     _enemy?.Draw(_spriteBatch);
+                    
 
                     foreach (Bullet bullet in _enemyBullets)
                     {
@@ -304,6 +308,7 @@ namespace BrickHack11
                     }
                     break;
                 case GameState.HitStop:
+                    playingScreen.Draw(_spriteBatch);
                     _player?.Draw(_spriteBatch);
                     _enemy?.Draw(_spriteBatch);
 
