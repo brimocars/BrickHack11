@@ -14,13 +14,14 @@ namespace BrickHack11
         private int _direction; // 1 = right, -1 = left
         private float _attackCooldown;
         private float _timeSinceLastAttack;
-        private List<IBulletPattern> _patterns;
+        private List<List<IBulletPattern>> _patternGroups;
+        private Queue<IBulletPattern> _patternQueue;
         private float _leftBound;
         private float _rightBound;
         private Random _random;
 
         public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, 
-            Rectangle spriteFrame, int health, float speed, List<IBulletPattern> patterns) 
+            Rectangle spriteFrame, int health, float speed, List<List<IBulletPattern>> patterns) 
             : base(spriteSheet, position, hitbox, spriteFrame)
         {
             _isAlive = true;
@@ -31,8 +32,9 @@ namespace BrickHack11
             _timeSinceLastAttack = _attackCooldown;
             _leftBound = 60;
             _rightBound = 860;
-            _patterns = patterns;
+            _patternGroups = patterns;
             _random = new Random();
+            _patternQueue = new Queue<IBulletPattern>();
         }
 
         public void Update(GameTime gameTime)
@@ -58,21 +60,32 @@ namespace BrickHack11
             _timeSinceLastAttack += (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
-        public List<Bullet> TrySpawnRandomPattern()
+        public List<Bullet> Attack(Vector2 playerPos)
         {
-            List<Bullet> newBullets = new List<Bullet>();
-
+            var newBullets = new List<Bullet>();
             if (_isAlive && _timeSinceLastAttack >= _attackCooldown)
             {
-                if (_patterns.Count > 0)
+                if (_patternQueue.Count == 0)
                 {
-                    _timeSinceLastAttack = 0;
-                    int index = _random.Next(_patterns.Count);
-                    var pattern = _patterns[index];
-                    
-                    pattern.Spawn(Position, SpriteSheet, new Rectangle(0, 0, 10, 10), newBullets);
-                    _timeSinceLastAttack += pattern.Cost;
+                    int index = _random.Next(_patternGroups.Count);
+                    var newGroup = _patternGroups[index];
+
+                    foreach (var pattern in newGroup)
+                    {
+                        _patternQueue.Enqueue(pattern);
+                    }
                 }
+                
+                _timeSinceLastAttack = 0;
+                var patternToFire = _patternQueue.Dequeue();
+                
+                if (patternToFire is TrackingPattern trackingPattern)
+                {
+                    trackingPattern.Target = playerPos;
+                }
+                
+                patternToFire.Spawn(Position, SpriteSheet, new Rectangle(0, 0, 10, 10), newBullets);
+                _timeSinceLastAttack += patternToFire.Cost;
             }
 
             return newBullets;

@@ -91,11 +91,12 @@ namespace BrickHack11
                 case GameState.Playing:
                     if (_previousGameState == GameState.MainMenu)
                     {
-                        var patterns = new List<IBulletPattern>
-                        {
-                            new CirclePattern(30, 300, 9f),
-                            new CirclePattern(10, 750, 8.5f),
-                            new StreamPattern(30, 700, 100, 8.5f)
+                        var patternGroups = new List<List<IBulletPattern>>
+                        {   new List<IBulletPattern>
+                            {
+                                new TrackingPattern(1, 650, 9.8f),
+                                new CirclePattern(30, 300, 9f),
+                            }
                         };
 
                         _enemy = new Enemy(
@@ -105,7 +106,7 @@ namespace BrickHack11
                             new Rectangle(0, 0, sprites.PlayerSprite.Width, sprites.PlayerSprite.Height),
                             3,
                             200,
-                            patterns);
+                            patternGroups);
                     }
 
                     // Update Enemy
@@ -140,7 +141,7 @@ namespace BrickHack11
                     }
 
                     // Handle new bullets from enemy
-                    List<Bullet> newBullets = _enemy.TrySpawnRandomPattern();
+                    List<Bullet> newBullets = _enemy.Attack(_player.Position);
                     _bullets.AddRange(newBullets);
 
                     // Check for parry:
