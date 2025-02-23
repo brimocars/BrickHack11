@@ -59,7 +59,7 @@ namespace BrickHack11
             _parryBound = new Rectangle((int)Position.X, (int)Position.Y - Hitbox.Height / 2, Hitbox.Width, Hitbox.Height / 2);
 
             // Update cooldown:
-            if (!canParry()) 
+            if (!CanParry()) 
             {
                 _parryCooldown -= (1f/60f);
             }
@@ -82,12 +82,12 @@ namespace BrickHack11
             spriteBatch.Draw(_shieldSprite, _parryBound, new Rectangle(0, 0, _shieldSprite.Width, _shieldSprite.Height), Color.Orange);
         }
 
-        public bool canParry()
+        public bool CanParry()
         {
             return _parryCooldown <= 0;
         }
 
-        internal void resetCooldown()
+        internal void ResetCooldown()
         {
             _parryCooldown = _cooldownDuration;
         }
