@@ -125,7 +125,10 @@ namespace BrickHack11
                             3,
                             200,
                             patternGroups,
-                            sprites.BulletSprite
+                            sprites.BulletSprite,
+                            sprites.ShieldSprite,
+                            1f,
+                                .5f
                             );
                     }
 

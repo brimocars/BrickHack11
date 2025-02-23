@@ -24,17 +24,23 @@ namespace BrickHack11
         private Rectangle _hitbox;
         private Random _random;
         private Texture2D _bulletSprite;
+        private Texture2D _shieldSprite;
+        private float _patternGroupCooldown;
+        private float _timeSinceLastPatternGroup;
 
         public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, 
-            Rectangle spriteFrame, int health, float speed, List<List<IBulletPattern>> patterns, Texture2D bulletSprite) 
+            Rectangle spriteFrame, int health, float speed, List<List<IBulletPattern>> patterns, Texture2D bulletSprite, Texture2D shieldSprite,
+            float patternGroupCooldown, float attackCooldown) 
             : base(spriteSheet, position, hitbox, spriteFrame)
         {
             _isAlive = true;
             _health = health;
             _speed = speed;
             _direction = 1; // Start moving right
-            _attackCooldown = 10f;
+            _attackCooldown = attackCooldown;
             _timeSinceLastAttack = _attackCooldown;
+            _patternGroupCooldown = patternGroupCooldown;
+            _timeSinceLastPatternGroup = _patternGroupCooldown;
             _leftBound = 60;
             _rightBound = 860;
             _patternGroups = patterns;
@@ -43,6 +49,7 @@ namespace BrickHack11
             _hasShield = true;
             _shieldBox = new Rectangle(hitbox.X - 10, hitbox.Y - 10, hitbox.Width + 20, hitbox.Height + 20);
             _bulletSprite = bulletSprite;
+            _shieldSprite = shieldSprite;
             _patternQueue = new Queue<IBulletPattern>();
         }
 
@@ -69,12 +76,13 @@ namespace BrickHack11
 
             // Update attack cooldown
             _timeSinceLastAttack += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _timeSinceLastPatternGroup += (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
         public List<Bullet> Attack(Vector2 playerPos)
         {
             var newBullets = new List<Bullet>();
-            if (_isAlive && _timeSinceLastAttack >= _attackCooldown)
+            if (_isAlive && _timeSinceLastPatternGroup >= _patternGroupCooldown)
             {
                 if (_patternQueue.Count == 0)
                 {
@@ -85,10 +93,15 @@ namespace BrickHack11
                     {
                         _patternQueue.Enqueue(pattern);
                     }
+
+                    _timeSinceLastPatternGroup = 0;
                 }
-                
-                _timeSinceLastAttack = 0;
+            }
+
+            if (_isAlive && (_patternQueue.Count != 0) && (_timeSinceLastAttack >= _attackCooldown))
+            {
                 var patternToFire = _patternQueue.Dequeue();
+                _timeSinceLastAttack = 0;
                 
                 if (patternToFire is TrackingPattern trackingPattern)
                 {
@@ -136,10 +149,9 @@ namespace BrickHack11
         public void Draw(SpriteBatch spriteBatch)
         {
             if (!_isAlive) return;
+            spriteBatch.Draw(_shieldSprite, _shieldBox, new Rectangle(0,0,_shieldSprite.Width, _shieldSprite.Height), Color.Azure);
 
             spriteBatch.Draw(SpriteSheet, Position, SpriteFrame, Color.White);
-
-            spriteBatch.Draw(SpriteSheet, _shieldBox, SpriteFrame, Color.Azure);
         }
     }
 }
