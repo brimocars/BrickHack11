@@ -28,9 +28,11 @@ namespace BrickHack11
         private float _patternGroupCooldown;
         private float _timeSinceLastPatternGroup;
 
-        public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, 
+        public int Health { get { return _health; } }
+
+        public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox,
             Rectangle spriteFrame, int health, float speed, List<List<IBulletPattern>> patterns, Texture2D bulletSprite, Texture2D shieldSprite,
-            float patternGroupCooldown, float attackCooldown) 
+            float patternGroupCooldown, float attackCooldown)
             : base(spriteSheet, position, hitbox, spriteFrame)
         {
             _isAlive = true;
@@ -103,12 +105,12 @@ namespace BrickHack11
             {
                 var patternToFire = _patternQueue.Dequeue();
                 _timeSinceLastAttack = 0;
-                
+
                 if (patternToFire is TrackingPattern trackingPattern)
                 {
                     trackingPattern.Target = playerPos;
                 }
-                
+
                 patternToFire.Spawn(Position, _bulletSprite, new Rectangle(0, 0, 10, 10), newBullets);
                 _timeSinceLastAttack += patternToFire.Cost;
             }
@@ -150,7 +152,7 @@ namespace BrickHack11
         public void Draw(SpriteBatch spriteBatch)
         {
             if (!_isAlive) return;
-            spriteBatch.Draw(_shieldSprite, _shieldBox, new Rectangle(0,0,_shieldSprite.Width, _shieldSprite.Height), Color.Azure);
+            spriteBatch.Draw(_shieldSprite, _shieldBox, new Rectangle(0, 0, _shieldSprite.Width, _shieldSprite.Height), Color.Azure);
 
             spriteBatch.Draw(SpriteSheet, Position, SpriteFrame, Color.White);
         }
