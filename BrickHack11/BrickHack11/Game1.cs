@@ -199,6 +199,7 @@ namespace BrickHack11
                         {
                             // Run a melee animation?
                             _enemy.TakeDamage();
+                            _enemyBullets.Clear();
                             _player.BackToStart(startingPosition.X, startingPosition.Y);
                         }
                     }
