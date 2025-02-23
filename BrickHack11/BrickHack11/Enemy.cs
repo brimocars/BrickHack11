@@ -51,6 +51,7 @@ namespace BrickHack11
             _bulletSprite = bulletSprite;
             _shieldSprite = shieldSprite;
             _patternQueue = new Queue<IBulletPattern>();
+            _hitbox = hitbox;
         }
 
         public void Update(GameTime gameTime)
