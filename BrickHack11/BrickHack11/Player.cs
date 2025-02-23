@@ -20,6 +20,7 @@ namespace BrickHack11
 
         public bool IsAlive { get { return _isAlive; } private set { _isAlive = value; } }
         public bool IsInvulnerable { get { return currentIFrames > 0; } }
+        public int Health { get { return _health; } }
 
         public Player(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, int health, float speed, Texture2D shieldSprite, Rectangle drawingBox) :
           base(spriteSheet, position, hitbox, spriteFrame, drawingBox)

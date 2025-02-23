@@ -274,6 +274,17 @@ namespace BrickHack11
                         bullet.Draw(_spriteBatch);
                     }
                     _spriteBatch.Draw(uiArea, new Rectangle(Constants.ArenaWidth, 0, Constants.ArenaWidth, Constants.ScreenHeight), Color.White);
+
+                    for (int i = 0; i < _enemy?.Health; i++)
+                    {
+                        _spriteBatch.Draw(sprites.EnemyHealthIcon, new Rectangle(Constants.ArenaWidth + 100 + i * 50,
+                            200, 50, 50), Color.White);
+                    }
+                    for (int i = 0; i < _player?.Health; i++)
+                    {
+                        _spriteBatch.Draw(sprites.PlayerHealthIcon, new Rectangle(Constants.ArenaWidth + 100 + i * 50,
+                            800, 50, 50), Color.White);
+                    }
                     break;
                 case GameState.HitStop:
                     _player?.Draw(_spriteBatch);
@@ -288,6 +299,17 @@ namespace BrickHack11
                         bullet.Draw(_spriteBatch);
                     }
                     _spriteBatch.Draw(uiArea, new Rectangle(Constants.ArenaWidth, 0, Constants.ArenaWidth, Constants.ScreenHeight), Color.White);
+
+                    for (int i = 0; i < _enemy?.Health; i++)
+                    {
+                        _spriteBatch.Draw(sprites.EnemyHealthIcon, new Rectangle(Constants.ArenaWidth + 100 + i * 50,
+                            200, 50, 50), Color.White);
+                    }
+                    for (int i = 0; i < _player?.Health; i++)
+                    {
+                        _spriteBatch.Draw(sprites.PlayerHealthIcon, new Rectangle(Constants.ArenaWidth + 100 + i * 50,
+                            800, 50, 50), Color.White);
+                    }
                     break;
                 case GameState.Paused:
                     break;
