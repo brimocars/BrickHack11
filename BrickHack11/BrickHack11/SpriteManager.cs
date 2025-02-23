@@ -14,6 +14,11 @@ namespace BrickHack11
         private Texture2D exitButtonTexture;
         private Texture2D playerHealthIcon;
         private Texture2D enemyHealthIcon;
+        private Texture2D loseScreen;
+        private Texture2D winScreen;
+        private Texture2D playingScreen;
+        private Texture2D uiArea;
+
 
         public Texture2D PlayerSprite { get => playerSprite; }
         public Texture2D ShieldSprite { get => shieldSprite; }
@@ -24,6 +29,10 @@ namespace BrickHack11
         public Texture2D ExitButtonTexture { get => exitButtonTexture;}
         public Texture2D PlayerHealthIcon { get => playerHealthIcon; }
         public Texture2D EnemyHealthIcon { get => enemyHealthIcon; }
+        public Texture2D GameOverScreen {get => loseScreen;}
+        public Texture2D WinScreen{ get => winScreen;}
+        public Texture2D PlayingScreen{ get => playingScreen;}
+        //public Texture2D UiArea{ get => uiArea;}
         public SpriteManager(ContentManager content)
         {
             bulletSprite = content.Load<Texture2D>("ball");
@@ -33,9 +42,12 @@ namespace BrickHack11
             mainMenuTexture = content.Load<Texture2D>("beanImage");
             playButtonTexture = content.Load<Texture2D>("playButton");
             exitButtonTexture = content.Load<Texture2D>("quitButton");
-            playerHealthIcon = content.Load<Texture2D>("ball");
-            enemyHealthIcon = content.Load<Texture2D>("ball");
-
+            playerHealthIcon = content.Load<Texture2D>("heart");
+            enemyHealthIcon = content.Load<Texture2D>("heart");
+            loseScreen = content.Load<Texture2D>("loseScreen");
+            winScreen = content.Load<Texture2D>("winScreen");
+            playingScreen = content.Load<Texture2D>("playingScreen");
+            //uiArea = content.Load<Texture2D>("uiArea");
         }
     }
 

@@ -12,8 +12,6 @@ public class MainMenu
     private Texture2D _bgTexture;
     private Texture2D _playButtonTexture;
     private Texture2D _quitButtonTexture;
-    private Vector2 playPosition;
-    private Vector2 exitPosition;
     private Rectangle playButton;
     //Rectangle settingButton;
     private Rectangle quitButton;
@@ -29,8 +27,8 @@ public class MainMenu
         _bgTexture = bgTexture;
         _playButtonTexture = playButton;
         _quitButtonTexture = quitButton;
-        this.playButton = new Rectangle(bgTexture.Width / 2 + 200, bgTexture.Height / 2, _playButtonTexture.Width, _playButtonTexture.Height);
-        this.quitButton = new Rectangle(bgTexture.Width / 2 + 200, bgTexture.Height / 2 + 200, _quitButtonTexture.Width, _quitButtonTexture.Height);
+        this.playButton = new Rectangle(bgTexture.Width / 2 + 200, bgTexture.Height / 2 + 80, _playButtonTexture.Width, _playButtonTexture.Height);
+        this.quitButton = new Rectangle(bgTexture.Width / 2 + 200, bgTexture.Height / 2 + 250, _quitButtonTexture.Width, _quitButtonTexture.Height);
     }
 
     public void Draw(SpriteBatch sb)
