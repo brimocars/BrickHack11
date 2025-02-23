@@ -32,6 +32,7 @@ namespace BrickHack11
         private List<Bullet> _enemyBullets;
         private List<Bullet> _parriedBullets;
         private Vector2 startingPosition;
+        private Texture2D uiArea;
 
         MainMenu mainMenu;
 
@@ -60,12 +61,12 @@ namespace BrickHack11
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             sprites = new SpriteManager(this.Content);
 
-            startingPosition = new Vector2(Constants.ScreenWidth/2, Constants.ScreenHeight - (Constants.ScreenHeight / 8));
+            startingPosition = new Vector2(Constants.ArenaWidth/2, Constants.ScreenHeight - (Constants.ScreenHeight / 8));
 
             _player = new Player(
                 sprites.PlayerSprite,
                 new Vector2(startingPosition.X, startingPosition.Y),
-                new Rectangle((int)startingPosition.X + 2, (int)startingPosition.Y + 2, 64 - 4, 100 - 4),
+                new Rectangle((int)startingPosition.X + 6, (int)startingPosition.Y + 6, 64 - 12, 100 - 12),
                 new Rectangle(0, 0, sprites.PlayerSprite.Width, sprites.PlayerSprite.Height),
                 3, 6.8f,
                 sprites.ShieldSprite,
@@ -73,6 +74,16 @@ namespace BrickHack11
                 );
 
             mainMenu = new MainMenu(sprites.MainMenuTexture, sprites.PlayButtonTexture, sprites.ExitButtonTexture);
+
+            uiArea = new Texture2D(GraphicsDevice, 1, 1);
+            uiArea.SetData(new[] { Color.White });
+        }
+
+        protected override void UnloadContent()
+        {
+            base.UnloadContent();
+            _spriteBatch.Dispose();
+            uiArea.Dispose();
         }
 
         protected override void Update(GameTime gameTime)
@@ -242,6 +253,7 @@ namespace BrickHack11
                     break;
 
                 case GameState.Playing:
+                    _spriteBatch.Draw(uiArea, new Rectangle(Constants.ArenaWidth, 0, Constants.ArenaWidth, Constants.ScreenHeight), Color.White);
                     _player?.Draw(_spriteBatch);
                     _enemy?.Draw(_spriteBatch);
 
@@ -256,6 +268,7 @@ namespace BrickHack11
                     }
                     break;
                 case GameState.HitStop:
+                    _spriteBatch.Draw(uiArea, new Rectangle(Constants.ArenaWidth, 0, Constants.ArenaWidth, Constants.ScreenHeight), Color.White);
                     _player?.Draw(_spriteBatch);
                     _enemy?.Draw(_spriteBatch);
 
