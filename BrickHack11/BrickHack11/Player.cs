@@ -21,8 +21,8 @@ namespace BrickHack11
         public bool IsAlive { get { return _isAlive; } private set { _isAlive = value; } }
         public bool IsInvulnerable { get { return currentIFrames > 0; } }
 
-        public Player(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, int health, float speed, Texture2D shieldSprite) :
-          base(spriteSheet, position, hitbox, spriteFrame)
+        public Player(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, int health, float speed, Texture2D shieldSprite, Rectangle drawingBox) :
+          base(spriteSheet, position, hitbox, spriteFrame, drawingBox)
         {
             _isAlive = true;
             _health = health;
@@ -30,7 +30,7 @@ namespace BrickHack11
             _shieldSprite = shieldSprite;
 
             // Create parry bounds based on player frame:
-            _parryBound = new Rectangle((int)Position.X, (int)Position.Y - Hitbox.Height / 2, Hitbox.Width, Hitbox.Height / 2);
+            _parryBound = new Rectangle((int)Position.X - 2, (int)Position.Y - Hitbox.Height / 2 - 2, Hitbox.Width + 4, Hitbox.Height / 2 + 4 );
         }
 
         public void Update()

@@ -10,6 +10,7 @@ namespace BrickHack11
         private Vector2 position;
         private Rectangle hitbox;
         private Rectangle spriteFrame;
+        private Rectangle drawingBox;
 
         public Texture2D SpriteSheet
         {
@@ -38,13 +39,16 @@ namespace BrickHack11
             set { spriteFrame = value; }
         }
 
-        public GameObject(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame)
+        public GameObject(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, Rectangle drawingBox)
         {
             this.position = position;
             this.hitbox = hitbox;
+            this.drawingBox = drawingBox;
             this.spriteSheet = spriteSheet;
             this.spriteFrame = spriteFrame;
         }
+
+        public GameObject(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame) : this(spriteSheet, position, hitbox, spriteFrame, hitbox) {}
 
         public virtual void Draw(SpriteBatch sb, Rectangle spriteFrame)
         {
