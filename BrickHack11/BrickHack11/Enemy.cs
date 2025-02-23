@@ -24,9 +24,10 @@ namespace BrickHack11
         private Rectangle _hitbox;
         private Random _random;
         private Texture2D _bulletSprite;
+        private Texture2D _shieldSprite;
 
         public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, 
-            Rectangle spriteFrame, int health, float speed, List<List<IBulletPattern>> patterns, Texture2D bulletSprite) 
+            Rectangle spriteFrame, int health, float speed, List<List<IBulletPattern>> patterns, Texture2D bulletSprite, Texture2D shieldSprite) 
             : base(spriteSheet, position, hitbox, spriteFrame)
         {
             _isAlive = true;
@@ -43,6 +44,7 @@ namespace BrickHack11
             _hasShield = true;
             _shieldBox = new Rectangle(hitbox.X - 10, hitbox.Y - 10, hitbox.Width + 20, hitbox.Height + 20);
             _bulletSprite = bulletSprite;
+            _shieldSprite = shieldSprite;
             _patternQueue = new Queue<IBulletPattern>();
         }
 
@@ -52,8 +54,8 @@ namespace BrickHack11
 
             // Move left or right
             Position = new Vector2(Position.X + _direction * _speed * (float)gameTime.ElapsedGameTime.TotalSeconds, Position.Y);
-            _shieldBox.X = (int)Position.X;
-            _shieldBox.Y = (int)Position.Y;
+            //_shieldBox.X = (int)Position.X;
+            //_shieldBox.Y = (int)Position.Y;
 
             // Reverse direction at bounds
             if (Position.X <= _leftBound)
@@ -136,10 +138,9 @@ namespace BrickHack11
         public void Draw(SpriteBatch spriteBatch)
         {
             if (!_isAlive) return;
+            spriteBatch.Draw(_shieldSprite, _shieldBox, new Rectangle(0,0,_shieldSprite.Width, _shieldSprite.Height), Color.Azure);
 
             spriteBatch.Draw(SpriteSheet, Position, SpriteFrame, Color.White);
-
-            spriteBatch.Draw(SpriteSheet, _shieldBox, SpriteFrame, Color.Azure);
         }
     }
 }
