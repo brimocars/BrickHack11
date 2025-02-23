@@ -37,7 +37,7 @@ namespace BrickHack11
         GameOver gameOver;
         WinScreen winScreen;
         PlayingScreen playingScreen;
-        
+
 
         public Game1()
         {
@@ -235,14 +235,19 @@ namespace BrickHack11
                             i--;
                             _enemy.DamageShield();
                         }
-                    }   
+                    }
 
 
                     if (!_player.IsAlive)
                     {
                         _gameState = GameState.GameOver;
                     }
+                    if (!_enemy._isAlive)
+                    {
+                        _gameState = GameState.Victory;
+                    }
                     _previousGameState = GameState.Playing;
+
                     break;
                 case GameState.HitStop:
                     hitStopTimer++;
@@ -283,7 +288,7 @@ namespace BrickHack11
                     playingScreen.Draw(_spriteBatch);
                     _player?.Draw(_spriteBatch);
                     _enemy?.Draw(_spriteBatch);
-                    
+
 
                     foreach (Bullet bullet in _enemyBullets)
                     {
@@ -304,7 +309,7 @@ namespace BrickHack11
                     for (int i = 0; i < _player?.Health; i++)
                     {
                         _spriteBatch.Draw(sprites.PlayerHealthIcon, new Rectangle(Constants.ArenaWidth + 100 + i * 50,
-                            800, 50, 50), Color.White);
+                            650, 50, 50), Color.White);
                     }
                     break;
                 case GameState.HitStop:
@@ -312,15 +317,17 @@ namespace BrickHack11
                     _player?.Draw(_spriteBatch);
                     _enemy?.Draw(_spriteBatch);
 
+
                     foreach (Bullet bullet in _enemyBullets)
                     {
                         bullet.Draw(_spriteBatch);
                     }
+
                     foreach (Bullet bullet in _parriedBullets)
                     {
                         bullet.Draw(_spriteBatch);
                     }
-                    _spriteBatch.Draw(sprites.UIArea, new Rectangle(Constants.ArenaWidth, 0, Constants.ArenaWidth, Constants.ScreenHeight), Color.White);
+                    _spriteBatch.Draw(sprites.UIArea, new Rectangle(0, 0, Constants.ScreenWidth, Constants.ScreenHeight), Color.White);
 
                     for (int i = 0; i < _enemy?.Health; i++)
                     {
@@ -330,7 +337,7 @@ namespace BrickHack11
                     for (int i = 0; i < _player?.Health; i++)
                     {
                         _spriteBatch.Draw(sprites.PlayerHealthIcon, new Rectangle(Constants.ArenaWidth + 100 + i * 50,
-                            800, 50, 50), Color.White);
+                            650, 50, 50), Color.White);
                     }
                     break;
                 case GameState.Paused:

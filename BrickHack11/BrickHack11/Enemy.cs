@@ -8,7 +8,7 @@ namespace BrickHack11
 {
     public class Enemy : GameObject
     {
-        private bool _isAlive;
+        public bool _isAlive;
         private bool _hasShield;
         private int _health;
         private int _shield;
