@@ -14,6 +14,8 @@ namespace BrickHack11
         private Texture2D exitButtonTexture;
         private Texture2D playerHealthIcon;
         private Texture2D enemyHealthIcon;
+        //private Texture2D loseScreen;
+
 
         public Texture2D PlayerSprite { get => playerSprite; }
         public Texture2D ShieldSprite { get => shieldSprite; }
@@ -33,8 +35,8 @@ namespace BrickHack11
             mainMenuTexture = content.Load<Texture2D>("beanImage");
             playButtonTexture = content.Load<Texture2D>("playButton");
             exitButtonTexture = content.Load<Texture2D>("quitButton");
-            playerHealthIcon = content.Load<Texture2D>("ball");
-            enemyHealthIcon = content.Load<Texture2D>("ball");
+            playerHealthIcon = content.Load<Texture2D>("heart");
+            enemyHealthIcon = content.Load<Texture2D>("heart");
 
         }
     }

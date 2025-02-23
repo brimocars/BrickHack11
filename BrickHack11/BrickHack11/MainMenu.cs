@@ -29,8 +29,8 @@ public class MainMenu
         _bgTexture = bgTexture;
         _playButtonTexture = playButton;
         _quitButtonTexture = quitButton;
-        this.playButton = new Rectangle(bgTexture.Width / 2 + 200, bgTexture.Height / 2, _playButtonTexture.Width, _playButtonTexture.Height);
-        this.quitButton = new Rectangle(bgTexture.Width / 2 + 200, bgTexture.Height / 2 + 200, _quitButtonTexture.Width, _quitButtonTexture.Height);
+        this.playButton = new Rectangle(bgTexture.Width / 2 + 200, bgTexture.Height / 2 + 80, _playButtonTexture.Width, _playButtonTexture.Height);
+        this.quitButton = new Rectangle(bgTexture.Width / 2 + 200, bgTexture.Height / 2 + 250, _quitButtonTexture.Width, _quitButtonTexture.Height);
     }
 
     public void Draw(SpriteBatch sb)
