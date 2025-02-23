@@ -9,7 +9,9 @@ namespace BrickHack11
     public class Enemy : GameObject
     {
         private bool _isAlive;
+        private bool _hasShield;
         private int _health;
+        private int _shield;
         private float _speed;
         private int _direction; // 1 = right, -1 = left
         private float _attackCooldown;
@@ -18,10 +20,13 @@ namespace BrickHack11
         private Queue<IBulletPattern> _patternQueue;
         private float _leftBound;
         private float _rightBound;
+        private Rectangle _shieldBox;
+        private Rectangle _hitbox;
         private Random _random;
+        private Texture2D _bulletSprite;
 
         public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, 
-            Rectangle spriteFrame, int health, float speed, List<List<IBulletPattern>> patterns) 
+            Rectangle spriteFrame, int health, float speed, List<List<IBulletPattern>> patterns, Texture2D bulletSprite) 
             : base(spriteSheet, position, hitbox, spriteFrame)
         {
             _isAlive = true;
@@ -34,6 +39,10 @@ namespace BrickHack11
             _rightBound = 860;
             _patternGroups = patterns;
             _random = new Random();
+            _shield = 3;
+            _hasShield = true;
+            _shieldBox = new Rectangle(hitbox.X - 10, hitbox.Y - 10, hitbox.Width + 20, hitbox.Height + 20);
+            _bulletSprite = bulletSprite;
             _patternQueue = new Queue<IBulletPattern>();
         }
 
@@ -43,6 +52,8 @@ namespace BrickHack11
 
             // Move left or right
             Position = new Vector2(Position.X + _direction * _speed * (float)gameTime.ElapsedGameTime.TotalSeconds, Position.Y);
+            _shieldBox.X = (int)Position.X;
+            _shieldBox.Y = (int)Position.Y;
 
             // Reverse direction at bounds
             if (Position.X <= _leftBound)
@@ -67,6 +78,12 @@ namespace BrickHack11
             {
                 if (_patternQueue.Count == 0)
                 {
+                    _timeSinceLastAttack = 0;
+                    int index = _random.Next(_patterns.Count);
+                    var pattern = _patterns[index];
+                    
+                    pattern.Spawn(Position, _bulletSprite, new Rectangle(0, 0, 10, 10), newBullets);
+                    _timeSinceLastAttack += pattern.Cost;
                     int index = _random.Next(_patternGroups.Count);
                     var newGroup = _patternGroups[index];
 
@@ -93,11 +110,33 @@ namespace BrickHack11
 
         public void TakeDamage()
         {
-            _health--;
-            if (_health <= 0)
+            if (!_hasShield)
             {
-                _isAlive = false;
+                _health--;
+                if (_health <= 0)
+                {
+                    _isAlive = false;
+                }
+
+                newShield();
             }
+        }
+
+        public void DamageShield()
+        {
+            _shield--;
+            if (_shield <= 0)
+            {
+                _hasShield = false;
+                _shieldBox = new Rectangle(0, 0, 0, 0);
+            }
+        }
+
+        private void newShield()
+        {
+            _hasShield = true;
+            _shield = 3;
+            _shieldBox = new Rectangle(_hitbox.X - 10, _hitbox.Y - 10, _hitbox.Width + 20, _hitbox.Height + 20);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -105,6 +144,8 @@ namespace BrickHack11
             if (!_isAlive) return;
 
             spriteBatch.Draw(SpriteSheet, Position, SpriteFrame, Color.White);
+
+            spriteBatch.Draw(SpriteSheet, _shieldBox, SpriteFrame, Color.Azure);
         }
     }
 }

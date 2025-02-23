@@ -29,7 +29,9 @@ namespace BrickHack11
         private Enemy _enemy;
         private int hitStopTimer;
 
-        private List<Bullet> _bullets;
+        private List<Bullet> _enemyBullets;
+        private List<Bullet> _parriedBullets;
+        private Vector2 startingPosition;
 
         MainMenu mainMenu;
 
@@ -47,7 +49,8 @@ namespace BrickHack11
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1080;
             _graphics.ApplyChanges();
-            _bullets = new List<Bullet>();
+            _enemyBullets = new List<Bullet>();
+            _parriedBullets = new List<Bullet>();
 
             base.Initialize();
         }
@@ -57,13 +60,15 @@ namespace BrickHack11
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             sprites = new SpriteManager(this.Content);
 
-            var startingPosition = new Vector2(100, 100);
+            startingPosition = new Vector2(Constants.ScreenWidth/2, Constants.ScreenHeight - (Constants.ScreenHeight / 8));
 
             _player = new Player(
                 sprites.PlayerSprite,
                 new Vector2(startingPosition.X, startingPosition.Y),
-                new Rectangle((int)startingPosition.X, (int)startingPosition.Y, 64, 64),
-                new Rectangle(0, 0, 64, 64), 3, 6.8f);
+                new Rectangle((int)startingPosition.X, (int)startingPosition.Y, 64, 100),
+                new Rectangle(0, 0, sprites.PlayerSprite.Width, sprites.PlayerSprite.Height),
+                3, 6.8f,
+                sprites.ShieldSprite);
 
             mainMenu = new MainMenu(sprites.MainMenuTexture, sprites.PlayButtonTexture, sprites.ExitButtonTexture);
         }
@@ -100,13 +105,15 @@ namespace BrickHack11
                         };
 
                         _enemy = new Enemy(
-                            sprites.PlayerSprite,
+                            sprites.EnemySprite,
                             new Vector2(480, 100),
-                            new Rectangle(300, 300, sprites.PlayerSprite.Width - 30, sprites.PlayerSprite.Height - 30),
-                            new Rectangle(0, 0, sprites.PlayerSprite.Width, sprites.PlayerSprite.Height),
+                            new Rectangle(300, 300, sprites.EnemySprite.Width - 30, sprites.EnemySprite.Height - 30),
+                            new Rectangle(0, 0, sprites.EnemySprite.Width, sprites.EnemySprite.Height),
                             3,
                             200,
-                            patternGroups);
+                            patternGroups,
+                            sprites.BulletSprite
+                            );
                     }
 
                     // Update Enemy
@@ -116,15 +123,15 @@ namespace BrickHack11
                     _player.Update();
 
                     // Update Bullets
-                    for (int i = 0; i < _bullets.Count; i++)
+                    for (int i = 0; i < _enemyBullets.Count; i++)
                     {
-                        Bullet bullet = _bullets[i];
+                        Bullet bullet = _enemyBullets[i];
                         bullet.Update(gameTime);
 
                         // Check collision:
                         if (!_player.IsInvulnerable && _player.Hitbox.Intersects(bullet.Hitbox))
                         {
-                            _bullets.RemoveAt(i);
+                            _enemyBullets.RemoveAt(i);
                             _gameState = GameState.HitStop;
                             hitStopTimer = 0;
                             i--;
@@ -142,21 +149,27 @@ namespace BrickHack11
 
                     // Handle new bullets from enemy
                     List<Bullet> newBullets = _enemy.Attack(_player.Position);
-                    _bullets.AddRange(newBullets);
+                    _enemyBullets.AddRange(newBullets);
 
                     // Check for parry:
                     KeyboardState state = Keyboard.GetState();
                     if (state.IsKeyDown(Keys.Space))
                     {
                         // Check parry for bullets:
-                        foreach (var bullet in _bullets)
+                        for (int i = 0; i < _enemyBullets.Count; i++)
                         {
+
                             // Check collision:
-                            if (_player._parryBound.Intersects(bullet.Hitbox) && _player.canParry())
+                            if (_player._parryBound.Intersects(_enemyBullets[i].Hitbox) && _player.canParry())
                             {
                                 _gameState = GameState.HitStop;
                                 hitStopTimer = 0;
-                                bullet.Velocity = new Vector2(-bullet.Velocity.X, -bullet.Velocity.Y);
+                                Bullet removedBullet = _enemyBullets[i];
+                                _enemyBullets.RemoveAt(i);
+                                i--;
+                                removedBullet.IsParried = true;
+                                removedBullet.enemy = _enemy;
+                                _parriedBullets.Add(removedBullet);
                                 _player.resetCooldown();
                             }
                         }
@@ -170,8 +183,21 @@ namespace BrickHack11
                             _gameState = GameState.HitStop;
                             hitStopTimer = 0;
                             _enemy.TakeDamage();
+                            _player.BackToStart(startingPosition.X, startingPosition.Y);
                         }
                     }
+
+                    for (int i = 0; i < _parriedBullets.Count; i++)
+                    {
+                        _parriedBullets[i].Update(gameTime);
+                        if (_parriedBullets[i].Hitbox.Intersects(_enemy.Hitbox))
+                        {
+                            _parriedBullets.RemoveAt(i);
+                            i--;
+                            _enemy.DamageShield();
+                        }
+                    }
+
 
                     if (!_player.IsAlive)
                     {
@@ -205,7 +231,7 @@ namespace BrickHack11
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, 
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
                 null, null, null, null);
 
             switch (_gameState)
@@ -218,7 +244,12 @@ namespace BrickHack11
                     _player?.Draw(_spriteBatch);
                     _enemy?.Draw(_spriteBatch);
 
-                    foreach (Bullet bullet in _bullets)
+                    foreach (Bullet bullet in _enemyBullets)
+                    {
+                        bullet.Draw(_spriteBatch);
+                    }
+
+                    foreach (Bullet bullet in _parriedBullets)
                     {
                         bullet.Draw(_spriteBatch);
                     }
@@ -227,7 +258,11 @@ namespace BrickHack11
                     _player?.Draw(_spriteBatch);
                     _enemy?.Draw(_spriteBatch);
 
-                    foreach (Bullet bullet in _bullets)
+                    foreach (Bullet bullet in _enemyBullets)
+                    {
+                        bullet.Draw(_spriteBatch);
+                    }
+                    foreach (Bullet bullet in _parriedBullets)
                     {
                         bullet.Draw(_spriteBatch);
                     }

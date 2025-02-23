@@ -16,16 +16,18 @@ namespace BrickHack11
         private float _cooldownDuration = 1f;
         public Rectangle _parryBound;
         private int currentIFrames = 0;
+        private Texture2D _shieldSprite;
 
         public bool IsAlive { get { return _isAlive; } private set { _isAlive = value; } }
         public bool IsInvulnerable { get { return currentIFrames > 0; } }
 
-        public Player(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, int health, float speed) :
+        public Player(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, int health, float speed, Texture2D shieldSprite) :
           base(spriteSheet, position, hitbox, spriteFrame)
         {
             _isAlive = true;
             _health = health;
             _speed = speed;
+            _shieldSprite = shieldSprite;
 
             // Create parry bounds based on player frame:
             _parryBound = new Rectangle((int)Position.X, (int)Position.Y - Hitbox.Height / 2, Hitbox.Width, Hitbox.Height / 2);
@@ -76,8 +78,8 @@ namespace BrickHack11
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(SpriteSheet, Hitbox, SpriteFrame, Color.Green);
-            spriteBatch.Draw(SpriteSheet, _parryBound, SpriteFrame, Color.Orange);
+            spriteBatch.Draw(SpriteSheet, Hitbox, SpriteFrame, Color.White);
+            spriteBatch.Draw(_shieldSprite, _parryBound, new Rectangle(0, 0, _shieldSprite.Width, _shieldSprite.Height), Color.Orange);
         }
 
         public bool canParry()
@@ -88,6 +90,12 @@ namespace BrickHack11
         internal void resetCooldown()
         {
             _parryCooldown = _cooldownDuration;
+        }
+
+        public void BackToStart(float startX, float startY)
+        {
+            Vector2 newPos = new Vector2(startX, startY);
+            Position = newPos;
         }
     }
 
