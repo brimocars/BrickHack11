@@ -8,7 +8,9 @@ namespace BrickHack11
     {
         public Vector2 Velocity { get; set; }
         public Vector2 Acceleration { get; private set; }
-        
+        public bool IsParried { get; set; }
+        public Enemy enemy { get; set; }
+
         public Bullet(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, Rectangle spriteFrame, Vector2 velocity, Vector2 acceleration)
             : base(spriteSheet, position, hitbox, spriteFrame)
         {
@@ -20,13 +22,25 @@ namespace BrickHack11
         {
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            Velocity = new Vector2(Velocity.X + Acceleration.X, Velocity.Y + Acceleration.Y);
+            if (IsParried)
+            {
+                float xDif = enemy.Position.X - Position.X;
+                float yDif = enemy.Position.Y - Position.Y;
+
+                Velocity = new Vector2(xDif, yDif);
+                Velocity.Normalize();
+                Velocity *= 4;
+            }
+            else
+            {
+                Velocity = new Vector2(Velocity.X + Acceleration.X, Velocity.Y + Acceleration.Y);
+            }
             Position = new Vector2((Position.X + Velocity.X * elapsed), (Position.Y + Velocity.Y * elapsed));
         }
-        
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(SpriteSheet, Hitbox, Color.White);
+            spriteBatch.Draw(SpriteSheet, Hitbox, IsParried ? Color.Blue : Color.White);
         }
     }
 }
