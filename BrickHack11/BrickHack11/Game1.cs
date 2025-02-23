@@ -124,11 +124,21 @@ namespace BrickHack11
                             },
                             new List<IBulletPattern>
                             {
-                                new TrackingPattern(1, 500, .01f),
-                                new TrackingPattern(1, 500, .01f),
-                                new TrackingPattern(1, 500, .01f),
-                                new TrackingPattern(1, 500, .01f),
-                                new TrackingPattern(1, 500, 1f),
+                                new TrackingPattern(1, 500, -.9f),
+                                new TrackingPattern(1, 500, -.9f),
+                                new TrackingPattern(1, 500, -.9f),
+                                new TrackingPattern(1, 500, -.9f),
+                                new TrackingPattern(1, 500, -.9f),
+                                new TrackingPattern(1, 500, -.9f),
+                                new TrackingPattern(1, 500, -.9f),
+                                new TrackingPattern(1, 500, -.9f),
+                                new TrackingPattern(1, 500, -.9f),
+                                new TrackingPattern(1, 500, -.9f),
+                                new TrackingPattern(1, 500, -.9f),
+                                new TrackingPattern(1, 500, -.9f),
+                                new TrackingPattern(1, 500, -.9f),
+                                new TrackingPattern(1, 500, -.9f),
+                                new TrackingPattern(1, 500, -1f),
                             }
                         };
 
@@ -143,7 +153,7 @@ namespace BrickHack11
                             sprites.BulletSprite,
                             sprites.ShieldSprite,
                             2.5f,
-                                .5f
+                                1f
                             );
                     }
 
