@@ -78,12 +78,6 @@ namespace BrickHack11
             {
                 if (_patternQueue.Count == 0)
                 {
-                    _timeSinceLastAttack = 0;
-                    int index = _random.Next(_patterns.Count);
-                    var pattern = _patterns[index];
-                    
-                    pattern.Spawn(Position, _bulletSprite, new Rectangle(0, 0, 10, 10), newBullets);
-                    _timeSinceLastAttack += pattern.Cost;
                     int index = _random.Next(_patternGroups.Count);
                     var newGroup = _patternGroups[index];
 
