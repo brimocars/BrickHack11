@@ -25,7 +25,7 @@ namespace BrickHack11
             bulletSprite = content.Load<Texture2D>("ball");
             enemySprite = content.Load<Texture2D>("enemy1");
             playerSprite = content.Load<Texture2D>("player");
-            shieldSprite = content.Load<Texture2D>("ball");
+            shieldSprite = content.Load<Texture2D>("shield");
             mainMenuTexture = content.Load<Texture2D>("beanImage");
             playButtonTexture = content.Load<Texture2D>("playButton");
             exitButtonTexture = content.Load<Texture2D>("quitButton");
