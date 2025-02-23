@@ -65,10 +65,12 @@ namespace BrickHack11
             _player = new Player(
                 sprites.PlayerSprite,
                 new Vector2(startingPosition.X, startingPosition.Y),
-                new Rectangle((int)startingPosition.X, (int)startingPosition.Y, 64, 100),
+                new Rectangle((int)startingPosition.X + 2, (int)startingPosition.Y + 2, 64 - 4, 100 - 4),
                 new Rectangle(0, 0, sprites.PlayerSprite.Width, sprites.PlayerSprite.Height),
                 3, 6.8f,
-                sprites.ShieldSprite);
+                sprites.ShieldSprite,
+                new Rectangle((int)startingPosition.X, (int)startingPosition.Y, 64, 100)
+                );
 
             mainMenu = new MainMenu(sprites.MainMenuTexture, sprites.PlayButtonTexture, sprites.ExitButtonTexture);
         }
@@ -160,7 +162,7 @@ namespace BrickHack11
                         {
 
                             // Check collision:
-                            if (_player._parryBound.Intersects(_enemyBullets[i].Hitbox) && _player.canParry())
+                            if (_player._parryBound.Intersects(_enemyBullets[i].Hitbox) && _player.CanParry())
                             {
                                 _gameState = GameState.HitStop;
                                 hitStopTimer = 0;
@@ -173,7 +175,7 @@ namespace BrickHack11
                             }
                         }
                         // Reset parry:
-                        _player.resetCooldown();
+                        _player.ResetCooldown();
 
                         // Check for a melee attack:
                         if (_player._parryBound.Intersects(_enemy.Hitbox))
