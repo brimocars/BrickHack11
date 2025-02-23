@@ -65,7 +65,8 @@ namespace BrickHack11
                 sprites.PlayerSprite,
                 new Vector2(startingPosition.X, startingPosition.Y),
                 new Rectangle((int)startingPosition.X, (int)startingPosition.Y, 64, 64),
-                new Rectangle(0, 0, 64, 64), 3, 6.8f);
+                new Rectangle(0, 0, 64, 64), 3, 6.8f,
+                sprites.ShieldSprite);
 
             mainMenu = new MainMenu(sprites.MainMenuTexture, sprites.PlayButtonTexture, sprites.ExitButtonTexture);
         }
@@ -101,13 +102,15 @@ namespace BrickHack11
                         };
 
                         _enemy = new Enemy(
-                            sprites.PlayerSprite,
+                            sprites.EnemySprite,
                             new Vector2(480, 100),
-                            new Rectangle(300, 300, sprites.PlayerSprite.Width - 30, sprites.PlayerSprite.Height - 30),
-                            new Rectangle(0, 0, sprites.PlayerSprite.Width, sprites.PlayerSprite.Height),
+                            new Rectangle(300, 300, sprites.EnemySprite.Width - 30, sprites.EnemySprite.Height - 30),
+                            new Rectangle(0, 0, sprites.EnemySprite.Width, sprites.EnemySprite.Height),
                             3,
                             200,
-                            patterns);
+                            patterns,
+                            sprites.BulletSprite
+                            );
                     }
 
                     // Update Enemy

@@ -21,9 +21,10 @@ namespace BrickHack11
         private float _rightBound;
         private Rectangle _shieldBox;
         private Random _random;
+        private Texture2D _bulletSprite;
 
         public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, 
-            Rectangle spriteFrame, int health, float speed, List<IBulletPattern> patterns) 
+            Rectangle spriteFrame, int health, float speed, List<IBulletPattern> patterns, Texture2D bulletSprite) 
             : base(spriteSheet, position, hitbox, spriteFrame)
         {
             _isAlive = true;
@@ -39,6 +40,7 @@ namespace BrickHack11
             _shield = 3;
             _hasShield = true;
             _shieldBox = new Rectangle(hitbox.X - 10, hitbox.Y - 10, hitbox.Width + 20, hitbox.Height + 20);
+            _bulletSprite = bulletSprite;
         }
 
         public void Update(GameTime gameTime)
@@ -78,7 +80,7 @@ namespace BrickHack11
                     int index = _random.Next(_patterns.Count);
                     var pattern = _patterns[index];
                     
-                    pattern.Spawn(Position, SpriteSheet, new Rectangle(0, 0, 10, 10), newBullets);
+                    pattern.Spawn(Position, _bulletSprite, new Rectangle(0, 0, 10, 10), newBullets);
                     _timeSinceLastAttack += pattern.Cost;
                 }
             }
