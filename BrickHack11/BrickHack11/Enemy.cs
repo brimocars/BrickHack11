@@ -135,7 +135,7 @@ namespace BrickHack11
             if (_shield <= 0)
             {
                 _hasShield = false;
-                _shieldBox = new Rectangle(0, 0, 0, 0);
+                _shieldBox = new Rectangle(_shieldBox.X, _shieldBox.Y, 0, 0);
             }
         }
 
@@ -143,7 +143,7 @@ namespace BrickHack11
         {
             _hasShield = true;
             _shield = 3;
-            _shieldBox = new Rectangle(_hitbox.X - 10, _hitbox.Y - 10, _hitbox.Width + 20, _hitbox.Height + 20);
+            _shieldBox = new Rectangle(_shieldBox.X, _shieldBox.Y, _hitbox.Width + 20, _hitbox.Height + 20);
         }
 
         public void Draw(SpriteBatch spriteBatch)
