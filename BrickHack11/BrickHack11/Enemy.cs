@@ -95,7 +95,7 @@ namespace BrickHack11
                     trackingPattern.Target = playerPos;
                 }
                 
-                patternToFire.Spawn(Position, SpriteSheet, new Rectangle(0, 0, 10, 10), newBullets);
+                patternToFire.Spawn(Position, _bulletSprite, new Rectangle(0, 0, 10, 10), newBullets);
                 _timeSinceLastAttack += patternToFire.Cost;
             }
 
