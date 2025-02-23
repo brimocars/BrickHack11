@@ -9,7 +9,9 @@ namespace BrickHack11
     public class Enemy : GameObject
     {
         private bool _isAlive;
+        private bool _hasShield;
         private int _health;
+        private int _shield;
         private float _speed;
         private int _direction; // 1 = right, -1 = left
         private float _attackCooldown;
@@ -17,6 +19,7 @@ namespace BrickHack11
         private List<IBulletPattern> _patterns;
         private float _leftBound;
         private float _rightBound;
+        private Rectangle _shieldBox;
         private Random _random;
 
         public Enemy(Texture2D spriteSheet, Vector2 position, Rectangle hitbox, 
@@ -33,6 +36,9 @@ namespace BrickHack11
             _rightBound = 860;
             _patterns = patterns;
             _random = new Random();
+            _shield = 3;
+            _hasShield = true;
+            _shieldBox = new Rectangle(hitbox.X - 10, hitbox.Y - 10, hitbox.Width + 20, hitbox.Height + 20);
         }
 
         public void Update(GameTime gameTime)
@@ -41,6 +47,8 @@ namespace BrickHack11
 
             // Move left or right
             Position = new Vector2(Position.X + _direction * _speed * (float)gameTime.ElapsedGameTime.TotalSeconds, Position.Y);
+            _shieldBox.X = (int)Position.X;
+            _shieldBox.Y = (int)Position.Y;
 
             // Reverse direction at bounds
             if (Position.X <= _leftBound)
@@ -80,10 +88,23 @@ namespace BrickHack11
 
         public void TakeDamage()
         {
-            _health--;
-            if (_health <= 0)
+            if (!_hasShield)
             {
-                _isAlive = false;
+                _health--;
+                if (_health <= 0)
+                {
+                    _isAlive = false;
+                }
+            }
+        }
+
+        public void DamageShield()
+        {
+            _shield--;
+            if (_shield <= 0)
+            {
+                _hasShield = false;
+                _shieldBox = new Rectangle(0, 0, 0, 0);
             }
         }
 
@@ -92,6 +113,8 @@ namespace BrickHack11
             if (!_isAlive) return;
 
             spriteBatch.Draw(SpriteSheet, Position, SpriteFrame, Color.White);
+
+            spriteBatch.Draw(SpriteSheet, _shieldBox, SpriteFrame, Color.Azure);
         }
     }
 }
