@@ -167,6 +167,8 @@ namespace BrickHack11
                                 _player.resetCooldown();
                             }
                         }
+                        // Missed parry:
+                        _player.resetCooldown();
 
                         // Check for a melee attack:
                         if (_player._parryBound.Intersects(_enemy.Hitbox))
