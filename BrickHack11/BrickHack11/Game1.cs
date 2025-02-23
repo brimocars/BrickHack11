@@ -160,7 +160,7 @@ namespace BrickHack11
                         {
 
                             // Check collision:
-                            if (_player._parryBound.Intersects(_enemyBullets[i].Hitbox) && _player.canParry())
+                            if (_player._parryBound.Intersects(_enemyBullets[i].Hitbox) && _player.CanParry())
                             {
                                 _gameState = GameState.HitStop;
                                 hitStopTimer = 0;
@@ -173,7 +173,7 @@ namespace BrickHack11
                             }
                         }
                         // Reset parry:
-                        _player.resetCooldown();
+                        _player.ResetCooldown();
 
                         // Check for a melee attack:
                         if (_player._parryBound.Intersects(_enemy.Hitbox))
